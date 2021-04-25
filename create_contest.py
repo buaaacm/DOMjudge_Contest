@@ -3,7 +3,6 @@ import requests
 from requests.auth import HTTPBasicAuth
 import yaml
 import xml.etree.ElementTree as ET
-import random
 import os
 
 
@@ -53,4 +52,3 @@ if __name__ == '__main__':
             })
             print(response.json())
             response.raise_for_status()
-            problem_id = response.json()
