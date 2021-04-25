@@ -141,3 +141,23 @@ if __name__ == '__main__':
                 for file in files:
                     zipf.write(os.path.join(root, file))
         os.chdir('../..')
+
+    # Add a pseudo problem to place the statement
+
+    workdir = 'domjudge/statement-avkbteripx'
+    os.chdir(workdir)
+
+    problem_config = {
+        'name': '比赛总题面',
+        'allow_submit': True,
+        'allow_judge': False,
+    }
+    with open('domjudge-problem.ini', 'w') as fpout:
+        for key, value in problem_config.items():
+            fpout.write(f'{key} = {value}\n')
+    with zipfile.ZipFile(f'../statement-avkbteripx.zip', 'w') as zipf:
+        for root, dirs, files in os.walk('.'):
+            for file in files:
+                zipf.write(os.path.join(root, file))
+
+    os.chdir('../..')

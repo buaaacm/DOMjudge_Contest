@@ -42,10 +42,14 @@ if __name__ == '__main__':
         # contest_id = response.json()
         contest_id = 10
 
+    problems.append('statement-avkbteripx')
     for id, problem in enumerate(problems):
         os.chdir('domjudge')
         with open(f'{problem}.zip', 'rb') as fpin:
-            problem_index = chr(id + ord('A'))
+            if id == len(problems) - 1:
+                problem_index = 'Z'
+            else:
+                problem_index = chr(id + ord('A'))
             response = post(f'contests/{contest_id}/problems', files={
                 'zip[]': (f'{problem_index}.zip', fpin),
             })
