@@ -81,3 +81,21 @@
      -h, --help         show this help message and exit
      --contest CONTEST  Contest config path. Default: contest.yaml
    ```
+
+## Generate teams and users
+
+1. 填写 `groups.tsv`，即队伍类别，注意该文件不能有空行，下同（这 DOMjudge 实现的真辣鸡）
+2. 运行 `python3 gen_teams.py`：
+   ```
+   usage: gen_teams.py [-h] [--pwd-len PWD_LEN] url team
+   
+   Generate teams, users, and add them to DOMjudge.
+   
+   positional arguments:
+     url                DOMjudge url. Example: https://bcpc.buaaacm.com/domjudge
+     team               Team number
+   
+   optional arguments:
+     -h, --help         show this help message and exit
+     --pwd-len PWD_LEN  Password length
+   ```
