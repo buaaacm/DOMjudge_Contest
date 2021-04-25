@@ -4,19 +4,3 @@ start-time:               2021-04-24T13:00:00+08:00
 duration:                 5:00:00
 scoreboard-freeze-length: 1:00:00
 penalty-time:             20
-
-problems:
-  - letter:     A
-    short-name: hello
-    color:      Orange
-    rgb:        '#FF7109'
-
-  - letter:     B
-    short-name: boolfind
-    color:      Forest Green
-    rgb:        '#008100'
-
-  - letter:     HaHA
-    short-name: Test
-    color:      What Color
-    rgb:        '#1c12c1'
