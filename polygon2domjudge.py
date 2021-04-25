@@ -156,7 +156,7 @@ if __name__ == '__main__':
     with open('domjudge-problem.ini', 'w') as fpout:
         for key, value in problem_config.items():
             fpout.write(f'{key} = {value}\n')
-    shutil.copy('../../statements/chinese/statements.pdf', './')
+    shutil.copy('../../statements/chinese/statements.pdf', './problem.pdf')
     with zipfile.ZipFile(f'../statement-avkbteripx.zip', 'w') as zipf:
         for root, dirs, files in os.walk('.'):
             for file in files:
