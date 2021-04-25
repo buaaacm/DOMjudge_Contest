@@ -145,6 +145,7 @@ if __name__ == '__main__':
     # Add a pseudo problem to place the statement
 
     workdir = 'domjudge/statement-avkbteripx'
+    os.makedirs(workdir)
     os.chdir(workdir)
 
     problem_config = {
