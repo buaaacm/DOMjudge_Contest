@@ -28,19 +28,17 @@ if __name__ == '__main__':
     for problem in problems_node:
         short_name = problem.attrib['url'].split('/')[-1]
         problems.append(short_name)
-        break
 
     with open(args.contest, 'w') as fpout:
         yaml.dump(contest_config, fpout)
 
     with open(args.contest, 'r') as fpin:
-        # response = post('contests', files={
-        #     'yaml': fpin,
-        # })
-        # print(response.json())
-        # response.raise_for_status()
-        # contest_id = response.json()
-        contest_id = 10
+        response = post('contests', files={
+            'yaml': fpin,
+        })
+        print(response.json())
+        response.raise_for_status()
+        contest_id = response.json()
 
     problems.append('statement-avkbteripx')
     for id, problem in enumerate(problems):
