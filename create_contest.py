@@ -41,8 +41,8 @@ if __name__ == '__main__':
         contest_id = response.json()
 
     problems.append('statement-avkbteripx')
+    os.chdir('domjudge')
     for id, problem in enumerate(problems):
-        os.chdir('domjudge')
         with open(f'{problem}.zip', 'rb') as fpin:
             if id == len(problems) - 1:
                 problem_index = 'Z'
