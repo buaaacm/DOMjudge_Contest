@@ -1,6 +1,6 @@
 name:                     BCPC 2021 Preliminary
 short-name:               BCPC2021Pre
-start-time:               2021-04-24T13:00:00+08:00
-duration:                 5:00:00
-scoreboard-freeze-length: 1:00:00
+start-time:               '2021-04-24T13:00:00+08:00'
+duration:                 '5:00:00'
+scoreboard-freeze-length: '1:00:00'
 penalty-time:             20
