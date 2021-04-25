@@ -6,6 +6,7 @@ import yaml
 import zipfile
 import random
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parse Polygon package to DOMjudge format.')
     parser.add_argument('--origin-ml', action='store_true',
@@ -31,8 +32,7 @@ if __name__ == '__main__':
         problems_node = root.find('problems').findall('problem')
 
     for problem in problems_node:
-        attrib = problem.attrib
-        short_name = attrib['url'].split('/')[-1]
+        short_name = problem.attrib['url'].split('/')[-1]
         with open(f'problems/{short_name}/problem.xml', 'r', encoding='utf-8') as fpin:
             root = ET.parse(fpin).getroot()
 
