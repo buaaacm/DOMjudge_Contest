@@ -99,3 +99,22 @@
      -h, --help         show this help message and exit
      --pwd-len PWD_LEN  Password length
    ```
+
+## judgehost 压力测试
+
+1. 将 `random_submission.py`、`accounts.tsv` 复制到 `domjudge/` 目录
+2. 运行 `python3 random_submission.py`：
+   ```
+   usage: random_submission.py [-h] [--submit-interval SUBMIT_INTERVAL] url contest_id
+
+   Randomly submit to DOMjudge.
+   
+   positional arguments:
+     url                   DOMjudge url. Example: https://bcpc.buaaacm.com/domjudge
+     contest_id            Contest Id
+   
+   optional arguments:
+     -h, --help            show this help message and exit
+     --submit-interval SUBMIT_INTERVAL
+                           Interval between submissions
+   ```
