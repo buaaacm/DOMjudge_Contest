@@ -40,14 +40,15 @@
    若不准备好该文件，会随机生成气球颜色
 2. 运行 `python3 polygon2domjudge.py` 即可：
    ```
-   usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON]
+   usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON] [--language LANGUAGE]
 
    Parse Polygon package to DOMjudge format.
    
    optional arguments:
-     -h, --help         show this help message and exit
-     --origin-ml        If set, use the original memory limit of Polygon. Otherwise, set memory limit to 2GB.
-     --balloon BALLOON  Balloon color config path. Default: Generate random colors
+     -h, --help           show this help message and exit
+     --origin-ml          If set, use the original memory limit of Polygon. Otherwise, set memory limit to 2GB.
+     --balloon BALLOON    Balloon color config path. Default: Generate random colors
+     --language LANGUAGE  Language used in statements Default: chinese
    ```
 
 ## Setup Contest
