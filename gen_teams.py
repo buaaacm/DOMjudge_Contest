@@ -34,7 +34,7 @@ if __name__ == '__main__':
     with open('teams2.tsv', 'w') as fpout:
         fpout.write('File_Version\t2\n')
         for i in range(args.team):
-            team_id = 10 + i  # The 10 is tricky. You should make them unique, and be the same as team_name.
+            team_id = 10 + i  # The 10 is tricky. You should make them unique (different with existed accounts, such as admin), and be the same as team_name.
             external_id = team_id
             category_id = categories[random.randint(0, len(categories) - 1)]
             team_name = f'team{team_id:03d}'
