@@ -12,6 +12,7 @@ if __name__ == '__main__':
     parser.add_argument('--origin-ml', action='store_true',
                         help='If set, use the original memory limit of Polygon. Otherwise, set memory limit to 2GB.')
     parser.add_argument('--balloon', type=str, help='Balloon color config path. Default: Generate random colors')
+    parser.add_argument('--language', type=str, help='Language used in statements Default: chinese', default='chinese')
 
     args = parser.parse_args()
     if not args.origin_ml:
@@ -27,6 +28,8 @@ if __name__ == '__main__':
         with open(args.balloon, 'r') as fpin:
             balloon_config = yaml.load(fpin, yaml.SafeLoader)
 
+    args.language = args.language.lower()
+
     with open('contest.xml', 'r') as fpin:
         root = ET.parse(fpin).getroot()
         problems_node = root.find('problems').findall('problem')
@@ -39,8 +42,9 @@ if __name__ == '__main__':
         names = root.find('names').findall('name')
         title = None
         for name in names:
-            if name.attrib['language'] == 'chinese':
+            if name.attrib['language'] == args.language:
                 title = name.attrib['value']
+        escaped_title = title.replace("'", "''")
 
         testsets = root.find('judging').findall('testset')
         time_limit = int(testsets[0].find('time-limit').text)
@@ -67,7 +71,7 @@ if __name__ == '__main__':
             color = random.randint(0, (1 << 24) - 1)
             color = f'#{color:X}'
         problem_config = {
-            'name': title,
+            'name': f"'{escaped_title}'",
             'allow_submit': True,
             'allow_judge': True,
             'timelimit': time_limit,
@@ -149,14 +153,14 @@ if __name__ == '__main__':
     os.chdir(workdir)
 
     problem_config = {
-        'name': '比赛总题面',
+        'name': '比赛总题面' if args.language == 'chinese' else 'contest statements',
         'allow_submit': True,
         'allow_judge': False,
     }
     with open('domjudge-problem.ini', 'w') as fpout:
         for key, value in problem_config.items():
             fpout.write(f'{key} = {value}\n')
-    shutil.copy('../../statements/chinese/statements.pdf', './problem.pdf')
+    shutil.copy(f'../../statements/{args.language}/statements.pdf', './problem.pdf')
     with zipfile.ZipFile(f'../statement-avkbteripx.zip', 'w') as zipf:
         for root, dirs, files in os.walk('.'):
             for file in files:
