@@ -11,6 +11,13 @@ def post(url, data=None, files=None):
     return requests.post(f'{args.url}/api/v4/{url}', auth=HTTPBasicAuth('admin', 'ioSLpaVyuIF-MsPy'), data=data, files=files)
 
 
+def parse_response(response):
+    try:
+        print(response.json())
+    except:
+        print(response.text)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Add a contest to DOMjudge.')
     parser.add_argument('url', type=str, help='DOMjudge url. Example: https://bcpc.buaaacm.com/domjudge')
@@ -35,20 +42,7 @@ if __name__ == '__main__':
         response = post('contests', files={
             'yaml': fpin,
         })
-        print(response.json())
         response.raise_for_status()
+        parse_response(response)
         contest_id = response.json()
 
-    problems.append('statement-avkbteripx')
-    os.chdir('domjudge')
-    for id, problem in enumerate(problems):
-        with open(f'{problem}.zip', 'rb') as fpin:
-            if id == len(problems) - 1:
-                problem_index = 'Z'
-            else:
-                problem_index = chr(id + ord('A'))
-            response = post(f'contests/{contest_id}/problems', files={
-                'zip[]': (f'{problem_index}.zip', fpin),
-            })
-            print(response.json())
-            response.raise_for_status()

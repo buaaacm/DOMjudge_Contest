@@ -34,7 +34,9 @@ if __name__ == '__main__':
         root = ET.parse(fpin).getroot()
         problems_node = root.find('problems').findall('problem')
 
+    first_problem = True
     for problem in problems_node:
+        print(f'Packaging problem {problem}...')
         short_name = problem.attrib['url'].split('/')[-1]
         with open(f'problems/{short_name}/problem.xml', 'r', encoding='utf-8') as fpin:
             root = ET.parse(fpin).getroot()
@@ -140,30 +142,13 @@ if __name__ == '__main__':
         shutil.copy(f'../../problems/{short_name}/{checker_path}', dom_checker_path)
         shutil.copy(f'../../testlib.h', dom_checker_path)
 
+        if first_problem:
+            print('Putting all the statements in the first problem.')
+            first_problem = False
+            shutil.copy(f'../../statements/{args.language}/statements.pdf', './problem.pdf')
+
         with zipfile.ZipFile(f'../{short_name}.zip', 'w') as zipf:
             for root, dirs, files in os.walk('.'):
                 for file in files:
                     zipf.write(os.path.join(root, file))
         os.chdir('../..')
-
-    # Add a pseudo problem to place the statement
-
-    workdir = 'domjudge/statement-avkbteripx'
-    os.makedirs(workdir)
-    os.chdir(workdir)
-
-    problem_config = {
-        'name': '比赛总题面' if args.language == 'chinese' else 'contest statements',
-        'allow_submit': True,
-        'allow_judge': False,
-    }
-    with open('domjudge-problem.ini', 'w') as fpout:
-        for key, value in problem_config.items():
-            fpout.write(f'{key} = {value}\n')
-    shutil.copy(f'../../statements/{args.language}/statements.pdf', './problem.pdf')
-    with zipfile.ZipFile(f'../statement-avkbteripx.zip', 'w') as zipf:
-        for root, dirs, files in os.walk('.'):
-            for file in files:
-                zipf.write(os.path.join(root, file))
-
-    os.chdir('../..')
