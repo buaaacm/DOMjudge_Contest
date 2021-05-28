@@ -36,8 +36,8 @@ if __name__ == '__main__':
 
     first_problem = True
     for problem in problems_node:
-        print(f'Packaging problem {problem.text}...')
         short_name = problem.attrib['url'].split('/')[-1]
+        print(f'Packaging problem {short_name}...')
         with open(f'problems/{short_name}/problem.xml', 'r', encoding='utf-8') as fpin:
             root = ET.parse(fpin).getroot()
 
