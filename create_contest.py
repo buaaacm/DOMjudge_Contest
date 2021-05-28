@@ -42,8 +42,8 @@ if __name__ == '__main__':
         response = post('contests', files={
             'yaml': fpin,
         })
-        response.raise_for_status()
         parse_response(response)
+        response.raise_for_status()
         contest_id = response.json()
 
     os.chdir('domjudge')
