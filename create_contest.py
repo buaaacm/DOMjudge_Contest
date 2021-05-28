@@ -46,3 +46,15 @@ if __name__ == '__main__':
         parse_response(response)
         contest_id = response.json()
 
+    os.chdir('domjudge')
+    for id, problem in enumerate(problems):
+        with open(f'{problem}.zip', 'rb') as fpin:
+            if id == len(problems) - 1:
+                problem_index = 'Z'
+            else:
+                problem_index = chr(id + ord('A'))
+            response = post(f'contests/{contest_id}/problems', files={
+                'zip[]': (f'{problem_index}.zip', fpin),
+            })
+            parse_response(response)
+            response.raise_for_status()
