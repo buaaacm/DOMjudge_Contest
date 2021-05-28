@@ -32,13 +32,13 @@
 接下来需要在 Polygon 上运行脚本以打包成 DOMjudge 格式的题目包。
 
 1. 将 `polygon2domjudge.py`、`testlib.h` 移动到 `contest-*****` 目录
-1. （可选）准备好气球颜色 `balloon.yaml`：
+2. （可选）准备好气球颜色 `balloon.yaml`：
    ```
    problem-name1: '#FF7109'
    problem-name2: '#008100'
    ```
    若不准备好该文件，会随机生成气球颜色
-2. 运行 `python3 polygon2domjudge.py` 即可：
+3. 运行 `python3 polygon2domjudge.py` 即可：
    ```
    usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON] [--language LANGUAGE]
 
@@ -69,7 +69,8 @@
    ```
 3. 在 `create_contest.py` 文件中修改 admin 用户名和密码
 4. 给 `admin` 创建一个 team，否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
-5. 运行 `python3 create_contest.py`：
+5. 查看题目包的大小，需要修改 `nginx` 中的设置
+6. 运行 `python3 create_contest.py`：
    ```
    usage: create_contest.py [-h] [--contest CONTEST] url
    
