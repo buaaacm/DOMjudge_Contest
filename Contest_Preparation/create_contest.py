@@ -16,6 +16,7 @@ def parse_response(response):
         print(response.json())
     except:
         print(response.text)
+    response.raise_for_status()
 
 
 if __name__ == '__main__':
@@ -43,7 +44,6 @@ if __name__ == '__main__':
             'yaml': fpin,
         })
         parse_response(response)
-        response.raise_for_status()
         contest_id = response.json()
 
     os.chdir('domjudge')
@@ -54,4 +54,3 @@ if __name__ == '__main__':
                 'zip[]': (f'{problem_index}.zip', fpin),
             })
             parse_response(response)
-            response.raise_for_status()
