@@ -69,7 +69,7 @@
    ```
 3. 在 `create_contest.py` 文件中修改 admin 用户名和密码
 4. 给 `admin` 创建一个 team，否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
-5. 查看题目包的大小，需要修改 `nginx` 中的设置
+5. 查看题目包的大小，需要修改 `nginx` 中的设置，而对于数据特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
 6. 运行 `python3 create_contest.py`：
    ```
    usage: create_contest.py [-h] [--contest CONTEST] url
