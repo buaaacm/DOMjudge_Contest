@@ -6,7 +6,7 @@ import random
 
 def post(url, data=None, files=None):
     global args
-    return requests.post(f'{args.url}/api/v4/{url}', auth=HTTPBasicAuth('admin', 'ioSLpaVyuIF-MsPy'), data=data, files=files)
+    return requests.post(f'{args.url}/api/v4/{url}', auth=HTTPBasicAuth('admin', 'password'), data=data, files=files)
 
 
 if __name__ == '__main__':
