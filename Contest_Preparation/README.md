@@ -14,15 +14,13 @@
 
 ### 从 Polygon 下载题目文件并 build
 
+1. 用 `polygon_files` 目录中的 `olymp.sty`，`statements.ftl`，`tutorials.ftl` 文件替换 Polygon 的 contest 中的相应文件（在 Properties/Files 中修改）。
 1. 在 Polygon 上以 Build full packages (+verify) 的形式 build package，随后下载 package。
 2. `unzip contest-*****.zip -d contest-*****`
 3. `cd contest-*****`
 4. ```sh
     vim ./statements/chinese/doall.sh
     :%s/latex/xelatex/g
-    vim ./statements/chinese/statements.tex
-    # in line 3, insert
-    \usepackage[UTF8]{ctex}
     ```
 5. `find ./ -name '*.sh' -exec chmod +x {} \;`
 6. `./doall.sh`
