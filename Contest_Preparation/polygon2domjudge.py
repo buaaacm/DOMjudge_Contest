@@ -140,7 +140,7 @@ if __name__ == '__main__':
         dom_checker_path = 'output_validators'
         os.makedirs(dom_checker_path)
         shutil.copy(f'../../problems/{short_name}/{checker_path}', dom_checker_path)
-        shutil.copy(f'../../testlib.h', dom_checker_path)
+        shutil.copy(f'../../polygon_files/testlib.h', dom_checker_path)
 
         if first_problem:
             print('Putting all the statements in the first problem.')
