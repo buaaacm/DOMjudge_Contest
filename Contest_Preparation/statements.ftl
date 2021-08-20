@@ -5,7 +5,7 @@
 \usepackage [english, russian] {babel}
 \usepackage {amsmath}
 \usepackage {amssymb}
-\usepackage <#if contest.language?? && contest.language="russian">[russian]<#elseif contest.language?? && contest.language="ukrainian">[ukrainian]</#if>{olymp}
+\usepackage <#if contest.language?? && contest.language="chinese">[chinese]<#elseif contest.language?? && contest.language="russian">[russian]<#elseif contest.language?? && contest.language="ukrainian">[ukrainian]</#if>{olymp}
 \usepackage {comment}
 \usepackage {epigraph}
 \usepackage {expdlist}

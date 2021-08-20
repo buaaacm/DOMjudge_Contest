@@ -11,12 +11,16 @@
 
 
 \newif\if@landscape\@landscapefalse
+\newif\if@chinese\@chinesefalse
 \newif\if@russian\@russianfalse
 \newif\if@ukrainian\@ukrainianfalse
 \newif\if@arabic\@arabicfalse
 
 \DeclareOption{landscape}{
     \@landscapetrue
+}
+\DeclareOption{chinese}{
+    \@chinesetrue
 }
 \DeclareOption{russian}{
     \@russiantrue
@@ -28,6 +32,12 @@
     \@arabictrue
 }
 \ProcessOptions\relax
+
+\if@chinese
+\usepackage[UTF8]{ctex}
+\newcommand\NoTimeLimit{}
+\newcommand\NoMemoryLimit{}
+\fi
 
 
 % -- Setup margins --
@@ -143,6 +153,50 @@
 
 % -- Setup keywords --
 
+\if@chinese
+\def\kw@ProblemTutorial{Problem Tutorial}
+\def\kw@Problem{Problem}
+\def\kw@ProblemAuthor{Author:}
+\def\kw@ProblemDeveloper{Developer:}
+\def\kw@ProblemOrigin{Origin:}
+\def\kw@InputFileName{输入文件：}
+\def\kw@OutputFileName{输出文件：}
+\def\kw@TimeLimit{时间限制：}
+\def\kw@MemoryLimit{空间限制：}
+\def\kw@Feedback{Feedback:}
+\def\kw@stdin{标准输入}
+\def\kw@stdout{标准输出}
+\def\kw@Specification{Specification}
+\def\kw@Interaction{Interaction Protocol}
+\def\kw@Input{输入格式}
+\def\kw@Output{输出格式}
+\def\kw@Example{样例}
+\def\kw@Examples{样例}
+\def\kwExampleNotes{Notes}
+\def\kw@Explanation{Explanation}
+\def\kw@Explanations{Explanations}
+\def\kw@Illustration{Illustration}
+\def\kw@Scoring{Scoring}
+\def\kw@Note{提示}
+\def\kw@Notes{提示}
+\def\kw@Constraints{Constraints}
+\def\kw@version{version}
+\def\kw@revision{revision}
+\def\kw@SubtaskOne{Subtask 1}
+\def\kw@SubtaskTwo{Subtask 2}
+\def\kw@SubtaskThree{Subtask 3}
+\def\kw@SubtaskFour{Subtask 4}
+\def\kw@SubtaskFive{Subtask 5}
+\def\kw@SubtaskSix{Subtask 6}
+\def\kw@Subtask{Subtask}
+\def\kw@points{points}
+\def\kw@Page{Page}
+\def\kw@of{of}
+\def\kw@notstated{not stated}
+\def\kw@IntentionallyBlankPage{This page is intentionally left blank}
+\def\kw@defaultinputname{test}
+\def\kw@defaultoutputname{answer}
+\else
 \if@russian
 \def\kw@ProblemTutorial{Разбор задачи}
 \def\kw@Problem{Задача}
@@ -275,6 +329,7 @@
 \def\kw@defaultoutputname{answer}
 \fi
 \fi
+\fi
 
 \afterproblemhead=3mm
 \afterconstraints=2mm
@@ -376,6 +431,9 @@
 
 % -- Default limits definition --
 
+\if@chinese
+\def\defaulttimelimit{2 seconds}
+\else
 \if@russian
 \def\defaulttimelimit{2 секунды}
 \else
@@ -385,9 +443,13 @@
 \def\defaulttimelimit{2 seconds}
 \fi
 \fi
+\fi
 
 
 
+\if@chinese
+\def\defaultmemorylimit{256 mebibytes}
+\else
 \if@russian
 \def\defaultmemorylimit{256 мебибайт}
 \else
@@ -395,6 +457,7 @@
 \def\defaulttimelimit{256 мебібайт}
 \else
 \def\defaultmemorylimit{256 mebibytes}
+\fi
 \fi
 \fi
 
@@ -786,3 +849,4 @@
 \hfuzz=0.5pt
 
 \sloppy
+
