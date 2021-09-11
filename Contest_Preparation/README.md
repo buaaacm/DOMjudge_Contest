@@ -15,21 +15,21 @@
 ### 从 Polygon 下载题目文件并 build
 
 1. 用 `polygon_files` 目录中的 `olymp.sty`，`statements.ftl`，`tutorials.ftl` 文件替换 Polygon 的 contest 中的相应文件（在 Properties/Files 中修改）。
-1. 在 Polygon 上以 Build full packages (+verify) 的形式 build package，随后下载 package。
-2. `unzip contest-*****.zip -d contest-*****`
-3. `cd contest-*****`
-4. ```sh
+2. 在 Polygon 上以 Build full packages (+verify) 的形式 build package，随后下载 package。
+3. `unzip contest-*****.zip -d contest-*****`
+4. `cd contest-*****`
+5. ```sh
     vim ./statements/chinese/doall.sh
     :%s/latex/xelatex/g
     ```
-5. `find ./ -name '*.sh' -exec chmod +x {} \;`
-6. `./doall.sh`
+6. `find ./ -name '*.sh' -exec chmod +x {} \;`
+7. `./doall.sh`
 
 本地 build 出的题面 pdf 很可能不尽如人意，有的地方有一些小 bug，甚至可能 build 失败。这里只需要在 `statements/chinese/` 目录下重新 `./doall.sh` 即可单独 build 题面。
 
 接下来需要在 Polygon 上运行脚本以打包成 DOMjudge 格式的题目包。
 
-1. 将 `polygon2domjudge.py`、`testlib.h` 移动到 `contest-*****` 目录
+1. 将 `polygon2domjudge.py`、`polygon_files/testlib.h` 移动到 `contest-*****` 目录
 2. （可选）准备好气球颜色 `balloon.yaml`：
    ```
    problem-name1: '#FF7109'
