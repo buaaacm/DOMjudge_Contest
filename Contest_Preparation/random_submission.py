@@ -7,9 +7,25 @@ import os
 import xml.etree.ElementTree as ET
 
 
-def post(url, auth=None, data=None, files=None):
+authentication = HTTPBasicAuth('admin', 'password')
+
+
+def get(url, auth=authentication, params=None):
+    global args
+    return requests.get(f'{args.url}/api/v4/{url}', auth=auth, params=params)
+
+
+def post(url, auth=authentication, data=None, files=None):
     global args
     return requests.post(f'{args.url}/api/v4/{url}', auth=auth, data=data, files=files)
+
+
+def parse_response(response):
+    try:
+        print(response.json())
+    except:
+        print(response.text)
+    response.raise_for_status()
 
 
 if __name__ == '__main__':
@@ -34,7 +50,7 @@ if __name__ == '__main__':
         for problem in problems_node:
             problems.append(problem.attrib['url'].split('/')[-1])
 
-    domjudge_problems = requests.get(f'{args.url}/api/v4/contests/{args.contest_id}/problems').json()
+    domjudge_problems = get(f'contests/{args.contest_id}/problems').json()
     problems_id = [p['id'] for p in domjudge_problems]
     print(problems_id)
     problems_id.pop()
