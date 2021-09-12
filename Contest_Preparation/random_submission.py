@@ -53,7 +53,6 @@ if __name__ == '__main__':
     domjudge_problems = get(f'contests/{args.contest_id}/problems').json()
     problems_id = [p['id'] for p in domjudge_problems]
     print(problems_id)
-    problems_id.pop()
 
     while True:
         problem = random.randint(0, len(problems) - 1)
