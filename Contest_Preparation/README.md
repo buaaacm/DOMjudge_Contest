@@ -82,6 +82,29 @@
      --contest CONTEST  Contest config path. Default: contest.yaml
    ```
 
+## Config TL and ML
+
+根据评测机的速度，可能需要调整时间限制或空间限制。这时，题面也需要做同步修改。
+
+步骤如下：
+
+1. 将 `config_tl_ml.py` 移动到 `contest-*****` 目录
+2. `get` 命令可获取当前题面中的限制和 `DOMjudge` 的限制，`set` 命令可以将题面中的限制修改为 `DOMjudge` 的限制，具体用法参考 `help`
+   ```
+   usage: config_tl_ml.py [-h] {get,set} ...
+
+   Compare the time limit and the memory limit of the statement and the domjudge setting.
+   
+   optional arguments:
+     -h, --help  show this help message and exit
+   
+   subcommands:
+     valid subcommands
+   
+     {get,set}   additional help
+   ```
+3. 别忘了重新 `build` 题面并上传到 `DOMjudge`
+
 ## Generate teams and users
 
 1. 填写 `groups.tsv`，即队伍类别，注意该文件不能有空行，下同（这 DOMjudge 实现的真辣鸡）
