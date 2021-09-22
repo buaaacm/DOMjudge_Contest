@@ -491,11 +491,22 @@
 \nopagebreak\par\afterproblemsectioncaption}%
 }%
 
+\newcommand\invisiblesection{%
+\refstepcounter{section}%
+}
+
+\if@arabic
+\renewcommand\thesection{\arabic{section}}
+\else
+\renewcommand\thesection{\Alph{section}}
+\fi
+
 \newenvironment{tutorial}[1]{%
     \bigskip%
     \noindent%
     \refstepcounter{problem}
     \textbf{\problemheadfont\textsf{\ifdefined\ShortProblemTitle\ifdefined\ProblemIndex\ProblemIndex. \fi\else\kw@Problem\ \ifdefined\ProblemIndex\ProblemIndex\else\if@arabic\arabic{problem}\else\Alph{problem}\fi\fi. \fi #1}}%
+    \invisiblesection
     \nopagebreak%
     \problemtextfont%
 }
