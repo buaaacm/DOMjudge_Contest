@@ -14,6 +14,8 @@
 \usepackage {ulem}
 \usepackage {import}
 \usepackage {ifpdf}
+\usepackage {multicol}
+\usepackage {tkz-graph}
 \ifpdf
   \DeclareGraphicsRule{*}{mps}{*}{}
 \fi

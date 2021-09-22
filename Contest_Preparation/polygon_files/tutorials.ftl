@@ -14,9 +14,18 @@
 \usepackage {ulem}
 \usepackage {import}
 \usepackage {ifpdf}
+\usepackage [figurename=图,tablename=表]{caption}
+\usepackage {tkz-graph}
+\usepackage {listings}
+\usepackage {xcolor}
 \ifpdf
   \DeclareGraphicsRule{*}{mps}{*}{}
 \fi
+
+\usepackage [colorlinks,linkcolor=blue]{hyperref}
+
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
 
 \begin {document}
 
