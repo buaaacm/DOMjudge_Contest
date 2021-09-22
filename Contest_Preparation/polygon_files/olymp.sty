@@ -8,6 +8,7 @@
 \ProvidesPackage{olymp}
 
 \usepackage{verbatim}
+\usepackage{lastpage}
 
 
 \newif\if@landscape\@landscapefalse
@@ -105,10 +106,10 @@
 % -- End of setup margins --
 
 %---------- From package "lastpage" ------------------
-\def\lastpage@putlabel{\addtocounter{page}{-1}%
-   \immediate\write\@auxout{\string\newlabel{LastPage}{{}{\thepage}}}%
-   \addtocounter{page}{1}}
-\AtEndDocument{\clearpage\lastpage@putlabel}%
+%\def\lastpage@putlabel{\addtocounter{page}{-1}%
+%   \immediate\write\@auxout{\string\newlabel{LastPage}{{}{\thepage}}}%
+%   \addtocounter{page}{1}}
+%\AtEndDocument{\clearpage\lastpage@putlabel}%
 %---------- end of "lastpage" ------------------
 
 % -- Setup sizes --
