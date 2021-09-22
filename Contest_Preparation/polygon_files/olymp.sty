@@ -133,6 +133,10 @@
 \newlength{\afterconstraints}
 
 \renewcommand{\t}[1]{\ifmmode{\mathtt{#1}}\else{\texttt{#1}}\fi}
+\if@chinese
+\parindent=2em
+\parskip=1ex
+\else
 \if@russian
 \renewcommand{\le}{\leqslant}
 \renewcommand{\ge}{\geqslant}
@@ -147,6 +151,7 @@
 \else
 \parindent=0mm
 \parskip=1ex
+\fi
 \fi
 \fi
 
@@ -655,6 +660,7 @@
 
 
     \ifdefined\NoExamples\else%
+    \noindent
     \begin{tabular}{|l|l|}
         \hline
         \multicolumn{1}{|c|}{\bf\texttt{\InputFileName}}&

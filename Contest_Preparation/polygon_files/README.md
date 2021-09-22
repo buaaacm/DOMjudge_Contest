@@ -12,6 +12,7 @@
 1. 增加中文语言选项，并对部分语句本地化
 2. 使用 `lastpage` 包，而非将其代码放在 `olymp.sty` 中，以使得 `lastpage` 与 `hyperref` 兼容
 3. 增加不可见的 `section` 命令，使得 `subsection` 等能够正确显示
+4. 添加中文首行缩进支持
 
 ## statements.ftl
 
