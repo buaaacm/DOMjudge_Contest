@@ -800,6 +800,14 @@
     \fi
 }
 
+\AtBeginDocument{
+    \@ifpackageloaded{hyperref}{
+        \def\LastPageNumber{\pageref*{LastPage}}
+    }{
+        \def\LastPageNumber{\pageref{LastPage}}
+    }
+}
+
 \renewcommand{\@oddfoot}{
 \gdef\problemletter{\if@arabic\arabic{problem}\else\Alph{problem}\fi}
 
@@ -811,6 +819,10 @@
 	{\gdef\rsigfooter{}}%
 \fi%
 
+\if@chinese
+	{\gdef\thefooter%
+        {{\hfil} 第\ \thepage\ 页，共\ \LastPageNumber\ 页 \rsigfooter\hfil}}%
+\else
 \ifdisplayauthorinfooter%
 %\if@newfooter%
 	{\gdef\thefooter%
@@ -831,6 +843,7 @@
 \else%
 	{\gdef\thefooter%
         {{\hfil}\kw@Page\ \thepage\ \kw@of\ \pageref{LastPage}\rsigfooter\hfil}}%
+\fi%
 \fi%
 \fi%
 
