@@ -20,6 +20,8 @@
   \DeclareGraphicsRule{*}{mps}{*}{}
 \fi
 
+\usepackage [colorlinks,linkcolor=blue]{hyperref}
+
 \begin {document}
 
 \contest
