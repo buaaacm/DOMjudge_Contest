@@ -19,8 +19,8 @@
 3. `unzip contest-*****.zip -d contest-*****`
 4. `cd contest-*****`
 5. ```sh
-    sed -i '' 's/latex/xelatex/g' doall.sh
-    ```
+   sed -i '' 's/latex/xelatex/g' doall.sh
+   ```
 6. `find ./ -name '*.sh' -exec chmod +x {} \;`
 7. `./doall.sh`
 
