@@ -16,13 +16,13 @@
 
 1. 用 `polygon_files` 目录中的 `olymp.sty`，`statements.ftl`，`tutorials.ftl` 文件替换 Polygon 的 contest 中的相应文件（在 Properties/Files 中修改）。
 2. 在 Polygon 上以 Build full packages (+verify) 的形式 build package，随后下载 package。
-3. `unzip contest-*****.zip -d contest-*****`
-4. `cd contest-*****`
-5. ```sh
+3. ```sh
+   unzip contest-*****.zip -d contest-*****
+   cd contest-*****
    sed -i '' 's/latex/xelatex/g' doall.sh
+   find ./ -name '*.sh' -exec chmod +x {} \;
+   ./doall.sh
    ```
-6. `find ./ -name '*.sh' -exec chmod +x {} \;`
-7. `./doall.sh`
 
 本地 build 出的题面 pdf 很可能不尽如人意，有的地方有一些小 bug，甚至可能 build 失败。这里只需要在 `statements/chinese/` 目录下重新 `./doall.sh` 即可单独 build 题面。
 
