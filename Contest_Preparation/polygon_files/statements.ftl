@@ -15,7 +15,9 @@
 \usepackage {import}
 \usepackage {ifpdf}
 \usepackage {multicol}
+\usepackage {listings}
 \usepackage {tkz-graph}
+\usepackage {xcolor}
 \ifpdf
   \DeclareGraphicsRule{*}{mps}{*}{}
 \fi
