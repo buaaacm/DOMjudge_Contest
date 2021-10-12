@@ -5,4 +5,4 @@
 5. `C/C++` 标准是否检查过？DOMjudge 的默认行为是使用评测结点 `gcc/g++` 的默认标准。如需修改，可在 DOMjudge 的 Executable 中修改。理论上，若不同评测结点的 `gcc/g++` 版本差异过大，有可能导致它们使用不同的默认标准。 
 6. 是否测试了评测结点时间的抖动？是否禁用了地址空间配置随机加载？参考[这里](https://www.domjudge.org/docs/manual/7.3/judging.html#judging-consistency)。
 7. 是否在 DOMjudge 的 Judging verifier 中检查过 polygon 上的 verdict 与 DOMjudge 的 verdict 不一致的情况？
-8. DOMjudge 为数据库设置了一个统一的弱密码。在修改该密码前，不要将数据库暴露到外界。
+8. 是否为数据库设置了强密码？
