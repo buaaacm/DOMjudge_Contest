@@ -140,3 +140,7 @@
      --submit-interval SUBMIT_INTERVAL
                            Interval between submissions
    ```
+
+## checklist
+
+别忘了在 `checklist.md` 中检查。
