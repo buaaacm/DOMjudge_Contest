@@ -6,3 +6,4 @@
 6. 是否测试了评测结点时间的抖动？是否禁用了地址空间配置随机加载？参考[这里](https://www.domjudge.org/docs/manual/7.3/judging.html#judging-consistency)。
 7. 是否在 DOMjudge 的 Judging verifier 中检查过 polygon 上的 verdict 与 DOMjudge 的 verdict 不一致的情况？
 8. 是否为数据库设置了强密码？
+9. 若比赛有交互题，是否设置了足够长的 timelimit_overshoot？交互题的 wall time 很长，不设置会导致 TLE。当然，这会显著增加评测负担，因为无法对某个题单独设置该属性。如果不需要卡 CPU time（即实际的 TL），那么可以考虑将时限开得很长，将 timelimit_overshoot 配置成若干倍时限。总而言之，这需要根据实际情况加以考虑。
