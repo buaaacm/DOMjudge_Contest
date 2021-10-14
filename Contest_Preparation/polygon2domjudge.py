@@ -53,8 +53,10 @@ if __name__ == '__main__':
         time_limit //= 1000  # ms to s
         memory_limit = int(testsets[0].find('memory-limit').text) if args.origin_ml else (2 << 30)  # 2GB
         memory_limit >>= 20  # in MB
+        is_interactive = root.find('assets').find('interactor') is not None
+        validation = 'custom interactive' if is_interactive else 'custom'
         problem_config = {
-            'validation': 'custom',  # actually, every problem in Polygon can be treated as special judge
+            'validation': validation,  # actually, every problem in Polygon can be treated as special judge
             'limits': {
                 'memory': memory_limit,
             },
@@ -135,12 +137,19 @@ if __name__ == '__main__':
             path = solution.find('source').attrib['path']
             shutil.copy(f'../../problems/{short_name}/{path}', f'submissions/{tag_map[tag]}')
 
-        # DOMjudge will automatically compile those checkers for you! Amazing!
-        checker_path = root.find('assets').find('checker').find('source').attrib['path']
-        dom_checker_path = 'output_validators'
-        os.makedirs(dom_checker_path)
-        shutil.copy(f'../../problems/{short_name}/{checker_path}', dom_checker_path)
-        shutil.copy(f'../../testlib.h', dom_checker_path)
+        if is_interactive:
+            interactor_path = root.find('assets').find('interactor').find('source').attrib['path']
+            dom_interactor_path = 'output_validators'
+            os.makedirs(dom_interactor_path)
+            shutil.copy(f'../../problems/{short_name}/{interactor_path}', dom_interactor_path)
+            shutil.copy(f'../../testlib.h', dom_interactor_path)
+        else:
+            # DOMjudge will automatically compile those checkers for you! Amazing!
+            checker_path = root.find('assets').find('checker').find('source').attrib['path']
+            dom_checker_path = 'output_validators'
+            os.makedirs(dom_checker_path)
+            shutil.copy(f'../../problems/{short_name}/{checker_path}', dom_checker_path)
+            shutil.copy(f'../../testlib.h', dom_checker_path)
 
         if first_problem:
             print('Putting all the statements in the first problem.')

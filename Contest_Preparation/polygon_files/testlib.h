@@ -43,6 +43,7 @@
 
 /*
  * Modified by zhongzihao for compatibility with DOMjudge.
+ * Many thanks to https://github.com/cn-xcpc-tools
  */
 
 /* NOTE: This file contains testlib library for C++.
@@ -2325,7 +2326,8 @@ void disableFinalizeGuard() {
 
 /* Interactor streams.
  */
-std::fstream tout;
+
+std::ostringstream tout;
 
 /* implementation
  */
@@ -2716,8 +2718,11 @@ NORETURN void InStream::quit(TResult result, const char *msg) {
             }
             xmlSafeWrite(resultFile, __testlib_toPrintableMessage(message).c_str());
             std::fprintf(resultFile, "</result>\n");
-        } else
+        }
+        else {
             std::fprintf(resultFile, "%s", __testlib_toPrintableMessage(message).c_str());
+            std::fprintf(resultFile, "%s", tout.str().c_str());
+        }
         if (NULL == resultFile || fclose(resultFile) != 0) {
             resultName = "";
             quit(_fail, "Can not write to the result file");
@@ -2730,8 +2735,8 @@ NORETURN void InStream::quit(TResult result, const char *msg) {
     inf.close();
     ouf.close();
     ans.close();
-    if (tout.is_open())
-        tout.close();
+    // if (tout.is_open())
+    //     tout.close();
 
     textColor(LightGray);
 
@@ -4040,6 +4045,9 @@ void registerGen(int argc, char *argv[]) {
 }
 #endif
 
+/*
+ * Modified by zhongzihao for compatibility with DOMjudge.
+ */
 void registerInteraction(int argc, char *argv[]) {
     __testlib_ensuresPreconditions();
 
@@ -4049,46 +4057,56 @@ void registerInteraction(int argc, char *argv[]) {
     if (argc > 1 && !strcmp("--help", argv[1]))
         __testlib_help();
 
-    if (argc < 3 || argc > 6) {
+    // if (argc != 3 || argc > 6) {
+    //     quit(_fail, std::string("Program must be run with the following arguments: ") +
+    //                 std::string("<input-file> <output-file> [<answer-file> [<report-file> [<-appes>]]]") +
+    //                 "\nUse \"--help\" to get help information");
+    // }
+
+    if (argc < 4) {
         quit(_fail, std::string("Program must be run with the following arguments: ") +
-                    std::string("<input-file> <output-file> [<answer-file> [<report-file> [<-appes>]]]") +
-                    "\nUse \"--help\" to get help information");
+                    std::string("/path/to/run_script/run <testdata.in> <testdata.ans> <feedbackdir> <run args>") +
+                    std::string("< <program.out>") + "\nUse \"--help\" to get help information");
     }
 
-    if (argc <= 4) {
-        resultName = "";
-        appesMode = false;
-    }
+    // if (argc <= 4) {
+    //     resultName = "";
+    //     appesMode = false;
+    // }
 
-#ifndef EJUDGE
-    if (argc == 5) {
-        resultName = argv[4];
-        appesMode = false;
-    }
+// #ifndef EJUDGE
+    // if (argc == 5) {
+    //     resultName = argv[4];
+    //     appesMode = false;
+    // }
 
-    if (argc == 6) {
-        if (strcmp("-APPES", argv[5]) && strcmp("-appes", argv[5])) {
-            quit(_fail, std::string("Program must be run with the following arguments: ") +
-                        "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
-        } else {
-            resultName = argv[4];
-            appesMode = true;
-        }
-    }
-#endif
+    // if (argc == 6) {
+    //     if (strcmp("-APPES", argv[5]) && strcmp("-appes", argv[5])) {
+    //         quit(_fail, std::string("Program must be run with the following arguments: ") +
+    //                     "<input-file> <output-file> <answer-file> [<report-file> [<-appes>]]");
+    //     } else {
+    //         resultName = argv[4];
+    //         appesMode = true;
+    //     }
+    // }
+// #endif
+    resultName = std::string(argv[3]) + "/" + "judgemessage.txt";
+    appesMode = false;
 
     inf.init(argv[1], _input);
 
-    tout.open(argv[2], std::ios_base::out);
-    if (tout.fail() || !tout.is_open())
-        quit(_fail, std::string("Can not write to the test-output-file '") + argv[2] + std::string("'"));
+    // use tout to print some judge info
+    tout << "\n-------------- Submission answer --------------\n" << std::flush;
+    // if (tout.fail() || !tout.is_open())
+    //     quit(_fail, std::string("Can not write to the test-output-file '") + argv[2] + std::string("'"));
 
     ouf.init(stdin, _output);
+    ans.init(argv[2], _answer);
 
-    if (argc >= 4)
-        ans.init(argv[3], _answer);
-    else
-        ans.name = "unopened answer stream";
+    // if (argc >= 4)
+    //     ans.init(argv[3], _answer);
+    // else
+    //     ans.name = "unopened answer stream";
 }
 
 void registerValidation() {
@@ -4160,7 +4178,7 @@ void registerTestlibCmd(int argc, char *argv[]) {
     //                 "\nUse \"--help\" to get help information");
     // }
 
-    if (argc != 4){
+    if (argc < 4){
         quit(_fail, std::string("Program must be run with the following arguments: ") +
                     std::string("/path/to/compare_script/run <testdata.in> <testdata.ans> <feedbackdir> <compare_args>")
                     + "< <program.out>");

@@ -6,6 +6,8 @@
 
 1. 将返回值修改为 $42,43$，对应 DOMjudge 的接口
 2. 修改 `registerTestlibCmd` 函数中命令行参数的顺序，对应 DOMjudge 的接口
+3. 修改 `registerInteraction` 函数中命令行参数的顺序，对应 DOMjudge 的接口
+4. Polygon 上的 `tout` 用于输出给 `checker` 检查的信息，但是 `DOMjudge` 不能同时支持 `interactor` 和 `checker`。因此在 `DOMjudge` 上将 `tout` 改为向 `judgemessage.txt` 输出信息。
 
 ## olymp.sty
 
