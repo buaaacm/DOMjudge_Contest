@@ -19,7 +19,7 @@
 3. ```sh
    unzip contest-*****.zip -d contest-*****
    cd contest-*****
-   sed -i '' 's/latex/xelatex/g' doall.sh
+   sed -i '' 's/latex/xelatex/g' statements/chinese/doall.sh
    find ./ -name '*.sh' -exec chmod +x {} \;
    ./doall.sh
    ```
