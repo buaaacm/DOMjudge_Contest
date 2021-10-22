@@ -21,7 +21,7 @@
    cd contest-*****
    # MACOS version
    sed -i '' 's/latex/xelatex/g' statements/chinese/doall.sh
-   # MACOS version
+   # Linux version
    sed -i 's/latex/xelatex/g' statements/chinese/doall.sh
    find ./ -name '*.sh' -exec chmod +x {} \;
    ./doall.sh
