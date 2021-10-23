@@ -122,6 +122,7 @@ if __name__ == '__main__':
             'accepted': 'accepted',
             'rejected': 'wrong_answer',
             'wrong-answer': 'wrong_answer',
+            'memory-limit-exceeded': 'run_time_error',
             'time-limit-exceeded': 'time_limit_exceeded',
             'time-limit-exceeded-or-accepted': 'time_limit_exceeded',
             'time-limit-exceeded-or-memory-limit-exceeded': 'time_limit_exceeded',
@@ -133,7 +134,7 @@ if __name__ == '__main__':
         for solution in solutions:
             tag = solution.attrib['tag']
             if tag not in tag_map:
-                raise NotImplementedError('Unknown verdict on polygon!')
+                raise NotImplementedError(f'Unknown verdict {tag} on polygon!')
             path = solution.find('source').attrib['path']
             shutil.copy(f'../../problems/{short_name}/{path}', f'submissions/{tag_map[tag]}')
 
