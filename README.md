@@ -1,2 +1,2 @@
-- `Contest_Preparation/`：从 polygon 上获取比赛数据，处理成 DOMjudge 的格式。进行其它比赛前的准备工作
-- 
+- `Contest_Preparation/`：从 polygon 上获取比赛数据，处理成 DOMjudge 的格式。进行其它比赛前的准备工作。
+- `ICPC_Resolver/`：滚榜工具。
