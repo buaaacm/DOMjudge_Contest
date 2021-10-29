@@ -27,9 +27,10 @@
 7. 查看生成的 `award-fixed-awards.json` 文件，将 `Gold Medalist` 修改为一等奖 `\u4e00\u7b49\u5956`，`Silver Medalist` 修改为二等奖 `\u4e8c\u7b49\u5956`，`Bronze Medalist` 修改为三等奖 `\u4e09\u7b49\u5956`
 8. 设置字体文件，其中 `YOUR/FONT` 是你电脑自带的某个支持中文的字体文件的绝对路径
    ```shell
-   export ICPC_FONT=YOUR/FONT
+   export ICPC_FONT=/YOUR/FONT
    ```
-9. ```shell
+9. 运行滚榜命令
+   ```shell
    ./resolver.sh award-fixed-awards.json --fast 0.01
    ```
 10. 务必大致核对一遍奖项和榜单（时间允许的情况下）
