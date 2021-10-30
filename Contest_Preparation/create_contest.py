@@ -55,7 +55,7 @@ if __name__ == '__main__':
         with open(f'{problem}.zip', 'rb') as fpin:
             problem_index = chr(id + ord('A'))
             response = post(f'contests/{contest_id}/problems', files={
-                'zip[]': (f'{problem_index}.zip', fpin),
+                'zip[]': (f'{problem_index}-{problem}.zip', fpin),
             })
             if response.status_code == 400 and 'externalid' in response.json()['message'][0]:
                 print(f'Problem {id} {problem} already exists, ignored...')

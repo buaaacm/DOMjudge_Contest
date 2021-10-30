@@ -83,6 +83,7 @@
      -h, --help         show this help message and exit
      --contest CONTEST  Contest config path. Default: contest.yaml
    ```
+7. 进入 DOMjudge 的比赛界面，手动修改题目的 shortname
 
 ## Config TL and ML
 
