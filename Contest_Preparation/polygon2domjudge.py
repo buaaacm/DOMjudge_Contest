@@ -5,6 +5,8 @@ import os
 import yaml
 import zipfile
 import random
+import subprocess
+import sys
 
 
 if __name__ == '__main__':
@@ -102,6 +104,11 @@ if __name__ == '__main__':
                     target = secret_path
                 shutil.copy(f'../../problems/{short_name}/{input_path}' % (id + 1), target)
                 shutil.copy(f'../../problems/{short_name}/{answer_path}' % (id + 1), target)
+            print(r'Warning: removing \r in data, requiring dos2unix...')
+            process = subprocess.Popen(r'find data/ -type f -exec dos2unix {} \;',
+                                       stdout=sys.stdout, stderr=sys.stderr, shell=True)
+            process.communicate()
+
 
             def modify_ext(root):
                 for rt, dirs, files in os.walk(root):
