@@ -1,8 +1,7 @@
-1. 在 DOMjudge 上结束比赛（finalize）
-2. 下载 [ICPC Resolver](https://tools.icpc.global/resolver/)，解压
-3. `./awards.sh` 打开图形界面，进入 REST 界面，输入 `URL: https://your.domjudge.domain/api/v4/contests/{cid}/`，admin 的账号密码，点击 connect
-4. 将默认奖项删除，之后依次添加 Rank（前三）奖项，First to Solve 奖项，并将 Rank 奖项的名称修改为中文，保存为 `award.json`
-5. 将 `event_feed.py` 移动到当前目录并运行，目的是主要是删除非参赛队伍和 TOO-LATE 的提交
+1. 下载 [ICPC Resolver](https://tools.icpc.global/resolver/)，解压
+2. `./awards.sh` 打开图形界面，进入 REST 界面，输入 `URL: https://your.domjudge.domain/api/v4/contests/{cid}/`，admin 的账号密码，点击 connect
+3. 将默认奖项删除，之后依次添加 Rank（前三）奖项，First to Solve 奖项，并将 Rank 奖项的名称修改为中文，保存为 `award.json`
+4. 将 `event_feed.py` 移动到当前目录并运行，目的是主要是删除非参赛队伍和 TOO-LATE 的提交
    ```
    usage: event_feed.py [-h] [--award-path AWARD_PATH] [--ignore-submission-after IGNORE_SUBMISSION_AFTER] [--save-path SAVE_PATH] available_groups
 
@@ -20,17 +19,17 @@
      --save-path SAVE_PATH
                            Path to save modified event feed. Default: award-fixed.json.
    ```
-6. 运行下面命令，注意 `lastSilver` 和 `lastBronze` **不是累计**奖项数
+5. 运行下面命令，其中 `lastGold`，`lastSilver` 和 `lastBronze` 指金银铜奖的数量。
    ```shell
    ./awards.sh award-fixed.json --medals <lastGold> <lastSilver> <lastBronze>
    ```
-7. 查看生成的 `award-fixed-awards.json` 文件，将 `Gold Medalist` 修改为一等奖 `\u4e00\u7b49\u5956`，`Silver Medalist` 修改为二等奖 `\u4e8c\u7b49\u5956`，`Bronze Medalist` 修改为三等奖 `\u4e09\u7b49\u5956`
-8. 设置字体文件，其中 `YOUR/FONT` 是你电脑自带的某个支持中文的字体文件的绝对路径
+6. 查看生成的 `award-fixed-awards.json` 文件，将 `Gold Medalist` 修改为一等奖 `\u4e00\u7b49\u5956`，`Silver Medalist` 修改为二等奖 `\u4e8c\u7b49\u5956`，`Bronze Medalist` 修改为三等奖 `\u4e09\u7b49\u5956`
+7. 设置字体文件，其中 `YOUR/FONT` 是你电脑自带的某个支持中文的字体文件的绝对路径
    ```shell
    export ICPC_FONT=/YOUR/FONT
    ```
-9. 运行滚榜命令
+8. 运行滚榜命令
    ```shell
-   ./resolver.sh award-fixed-awards.json --fast 0.01
+   ./resolver.sh award-fixed-awards.json --fast 0.2 --test
    ```
-10. 务必大致核对一遍奖项和榜单（时间允许的情况下）
+9.  务必大致核对一遍奖项和榜单（时间允许的情况下）
