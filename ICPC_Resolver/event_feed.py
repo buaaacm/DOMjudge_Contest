@@ -40,6 +40,8 @@ if __name__ == '__main__':
                 ignore_groups.add(event['data']['id'])
     ignore_teams = set()
     for event in events:
+        if event['op'] == 'delete':
+            continue
         if event['type'] == 'teams':
             ignore = False
             for group_id in event['data']['group_ids']:
@@ -78,15 +80,17 @@ if __name__ == '__main__':
                 ignore_runs.add(event['data']['id'])
     fixed_events = list()
     for event in events:
-        if event['type'] == 'groups' and event['data']['id'] in ignore_groups:
+        if event['op'] == 'delete':
+            pass
+        elif event['type'] == 'groups' and event['data']['id'] in ignore_groups:
             continue
-        if event['type'] == 'teams' and event['data']['id'] in ignore_teams:
+        elif event['type'] == 'teams' and event['data']['id'] in ignore_teams:
             continue
-        if event['type'] == 'submissions' and event['data']['id'] in ignore_submissions:
+        elif event['type'] == 'submissions' and event['data']['id'] in ignore_submissions:
             continue
-        if event['type'] == 'judgements' and event['data']['id'] in ignore_judgements:
+        elif event['type'] == 'judgements' and event['data']['id'] in ignore_judgements:
             continue
-        if event['type'] == 'runs' and event['data']['id'] in ignore_runs:
+        elif event['type'] == 'runs' and event['data']['id'] in ignore_runs:
             continue
         fixed_events.append(event)
     with open(args.save_path, 'w') as fpout:
