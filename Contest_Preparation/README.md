@@ -2,6 +2,8 @@
 
 在搭建好的 DOMjudge 上举办一场新的比赛！
 
+先过一遍 `checklist.md`，其中的部分注意事项在这里就不再赘述了。
+
 ## Polygon2DOMjudge
 
 将 Polygon 上下载的 package 转换为 DOMjudge 需要的形式。
@@ -144,7 +146,3 @@
      --submit-interval SUBMIT_INTERVAL
                            Interval between submissions
    ```
-
-## checklist
-
-别忘了在 `checklist.md` 中检查。
