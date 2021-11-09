@@ -2,6 +2,7 @@ import re
 import argparse
 import xml.etree.ElementTree as ET
 import requests
+import traceback
 from requests.auth import HTTPBasicAuth
 
 
@@ -19,10 +20,13 @@ def post(url, data=None, files=None):
 
 def parse_response(response):
     try:
-        print(response.json())
-    except:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        traceback.print_stack()
+        print(err)
         print(response.text)
-    response.raise_for_status()
+        exit(1)
+    return response.json()
 
 
 def parse_statement():
@@ -39,13 +43,12 @@ def parse_statement():
 
 def parse_domjudge(contest_id):
     response = get(f'contests/{contest_id}/problems')
-    # parse_response(response)
+    problems = parse_response(response)
     config = list()
-    for problem in response.json():
+    for problem in problems:
         pid = problem['id']
         response = get(f'contests/{contest_id}/problems/{pid}')
-        # parse_response(response)
-        problem_info = response.json()
+        problem_info = parse_response(response)
         short_name = problem_info['short_name']
         tl = problem['time_limit']
         print(f'{short_name}, {tl} seconds')
