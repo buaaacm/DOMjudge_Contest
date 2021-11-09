@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
         testsets = root.find('judging').findall('testset')
         time_limit = int(testsets[0].find('time-limit').text)
-        time_limit //= 1000  # ms to s
+        time_limit /= 1000  # ms to s
         memory_limit = int(testsets[0].find('memory-limit').text) if args.origin_ml else (2 << 30)  # 2GB
         memory_limit >>= 20  # in MB
         is_interactive = root.find('assets').find('interactor') is not None
