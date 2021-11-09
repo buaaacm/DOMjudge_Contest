@@ -75,7 +75,7 @@ if __name__ == '__main__':
             color = balloon_config[short_name]
         else:
             color = random.randint(0, (1 << 24) - 1)
-            color = f'#{color:X}'
+            color = f'#{color:06X}'
         problem_config = {
             'name': f"'{escaped_title}'",
             'allow_submit': True,
