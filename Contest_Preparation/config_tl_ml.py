@@ -22,7 +22,7 @@ def parse_response(response):
     try:
         response.raise_for_status()
     except requests.exceptions.HTTPError as err:
-        traceback.print_stack()
+        traceback.print_exc()
         print(err)
         print(response.text)
         exit(1)
