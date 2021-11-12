@@ -27,6 +27,7 @@
 \numberwithin{figure}{section}
 \numberwithin{table}{section}
 
+\newfontfamily{\lstconsolas}{Consolas}
 \lstset{
   frame=single,
   tabsize=4,
@@ -34,7 +35,7 @@
   commentstyle=\color{gray},
   stringstyle=\color[rgb]{0,0.50,0},
   showstringspaces=false,
-  basicstyle=\ttfamily\small,
+  basicstyle=\lstconsolas\small,
 }
 \lstset{literate=%
  *{0}{{{\color{blue}0}}}1
