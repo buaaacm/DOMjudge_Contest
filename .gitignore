@@ -133,3 +133,6 @@ dmypy.json
 
 # Jetbrain
 .idea/
+
+# Output Files
+Contest_Preparation/output
