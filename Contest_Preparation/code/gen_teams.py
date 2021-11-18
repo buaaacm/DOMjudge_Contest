@@ -91,24 +91,24 @@ if __name__ == '__main__':
                 seat,
             ])
 
-    with open('teams.json', 'w', encoding='utf-8') as fpout:
+    with open('../teams.json', 'w', encoding='utf-8') as fpout:
         json.dump(teams, fpout)
 
-    with open('accounts.tsv', 'w', encoding='utf-8') as fpout:
+    with open('../accounts.tsv', 'w', encoding='utf-8') as fpout:
         csv.register_dialect('tsv_dialect', delimiter='\t')
         writer = csv.writer(fpout, dialect='tsv_dialect')
         writer.writerows(accounts)
 
-    with open('participant_info.csv', 'w', encoding='gbk') as fpout:
+    with open('../participant_info.csv', 'w', encoding='gbk') as fpout:
         writer = csv.writer(fpout)
         writer.writerows(participant_info)
 
-    with open('teams.json', 'r') as fpin:
+    with open('../teams.json', 'r') as fpin:
         response = utils.post('users/teams', files={
             'json': fpin,
         })
         print(utils.parse_response(response))
-    with open('accounts.tsv', 'r') as fpin:
+    with open('../accounts.tsv', 'r') as fpin:
         response = utils.post('users/accounts', files={
             'tsv': fpin,
         })

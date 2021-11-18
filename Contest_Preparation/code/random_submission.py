@@ -36,7 +36,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     teams = list()
-    with open('accounts.tsv', 'r') as fpin:
+    with open('../accounts.tsv', 'r') as fpin:
         for line in fpin:
             line = line.strip().split('\t')
             if line[0] == 'accounts':

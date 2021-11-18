@@ -2,6 +2,7 @@ import re
 import argparse
 import xml.etree.ElementTree as ET
 import utils
+import os
 
 
 def parse_statement():
@@ -77,17 +78,13 @@ def set_config(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Compare the time limit and the memory limit of the statement and the'
                                                  ' domjudge setting.')
-    subparsers = parser.add_subparsers(title='subcommands', description='valid subcommands', help='additional help')
-
-    parser_get = subparsers.add_parser('get', description='Get the time limit and the memory limit of the statement and'
-                                                          ' the domjudge setting.')
-    parser_get.add_argument('contest_id', type=str, help='DOMjudge contest id.')
-    parser_get.set_defaults(func=get_config)
-
-    parser_set = subparsers.add_parser('set', description='Set the time limit and the memory limit of the statement to'
-                                                          ' the domjudge setting.')
-    parser_set.add_argument('contest_id', type=str, help='DOMjudge contest id.')
-    parser_set.set_defaults(func=set_config)
+    parser.add_argument('op', type=str, choices=['get', 'set'], help='Get or set.')
+    parser.add_argument('contest_path', type=str, help='Contest directory (polygon package) path.')
+    parser.add_argument('contest_id', type=str, help='DOMjudge contest id.')
 
     args = parser.parse_args()
-    args.func(args)
+    os.chdir(args.contest_path)
+    if args.op == 'get':
+        get_config(args)
+    elif args.op == 'set':
+        set_config(args)
