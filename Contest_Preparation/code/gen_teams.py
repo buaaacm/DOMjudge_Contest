@@ -99,7 +99,7 @@ if __name__ == '__main__':
         writer = csv.writer(fpout, dialect='tsv_dialect')
         writer.writerows(accounts)
 
-    with open('../output/participant_info.csv', 'w', encoding='csv') as fpout:
+    with open('../output/participant_info.csv', 'w', encoding='utf-8') as fpout:
         writer = csv.writer(fpout)
         writer.writerows(participant_info)
 
