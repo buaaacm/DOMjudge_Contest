@@ -1,27 +1,12 @@
 import argparse
-import requests
-from requests.auth import HTTPBasicAuth
 import yaml
 import xml.etree.ElementTree as ET
 import os
-
-
-def post(url, data=None, files=None):
-    global args
-    return requests.post(f'{args.url}/api/v4/{url}', auth=HTTPBasicAuth('admin', 'password'), data=data, files=files)
-
-
-def parse_response(response):
-    try:
-        print(response.json())
-    except:
-        print(response.text)
-    response.raise_for_status()
+import utils
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Add a contest to DOMjudge.')
-    parser.add_argument('url', type=str, help='DOMjudge url. Example: https://bcpc.buaaacm.com/domjudge')
     parser.add_argument('--contest', type=str, default='contest.yaml', help='Contest config path. Default: contest.yaml')
     parser.add_argument('--contest-id', type=int, help='Contest id if the contest exists.')
     args = parser.parse_args()
@@ -42,11 +27,10 @@ if __name__ == '__main__':
 
     if args.contest_id is None:
         with open(args.contest, 'r') as fpin:
-            response = post('contests', files={
+            response = utils.post('contests', files={
                 'yaml': fpin,
             })
-            parse_response(response)
-            contest_id = response.json()
+            contest_id = utils.parse_response(response)
     else:
         contest_id = args.contest_id
 
@@ -54,10 +38,10 @@ if __name__ == '__main__':
     for id, problem in enumerate(problems):
         with open(f'{problem}.zip', 'rb') as fpin:
             problem_index = chr(id + ord('A'))
-            response = post(f'contests/{contest_id}/problems', files={
+            response = utils.post(f'contests/{contest_id}/problems', files={
                 'zip[]': (f'{problem_index}-{problem}.zip', fpin),
             })
             if response.status_code == 400 and 'externalid' in response.json()['message'][0]:
                 print(f'Problem {id} {problem} already exists, ignored...')
             else:
-                parse_response(response)
+                contest_id = utils.parse_response(response)
