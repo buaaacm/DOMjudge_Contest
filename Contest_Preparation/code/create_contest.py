@@ -17,9 +17,10 @@ if __name__ == '__main__':
     parser.add_argument('--contest-id', type=int, help='Contest id if the contest exists.')
     args = parser.parse_args()
 
-    os.chdir(args.contest_path)
     with open(args.contest, 'r') as fpin:
         contest_config = yaml.load(fpin, yaml.SafeLoader)
+
+    os.chdir(args.contest_path)
     with open('contest.xml', 'r') as fpin:
         root = ET.parse(fpin).getroot()
         problems_node = root.find('problems').findall('problem')
@@ -29,11 +30,11 @@ if __name__ == '__main__':
         short_name = problem.attrib['url'].split('/')[-1]
         problems.append(short_name)
 
-    with open(args.contest, 'w') as fpout:
+    with open('contest.yaml', 'w') as fpout:
         yaml.dump(contest_config, fpout)
 
     if args.contest_id is None:
-        with open(args.contest, 'r') as fpin:
+        with open('contest.yaml', 'r') as fpin:
             response = utils.post('contests', files={
                 'yaml': fpin,
             })
@@ -51,4 +52,4 @@ if __name__ == '__main__':
             if response.status_code == 400 and 'externalid' in response.json()['message'][0]:
                 print(f'Problem {id} {problem} already exists, ignored...')
             else:
-                contest_id = utils.parse_response(response)
+                print(utils.parse_response(response))

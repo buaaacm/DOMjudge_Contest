@@ -11,12 +11,16 @@ import sys
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parse Polygon package to DOMjudge format.')
+    parser.add_argument('contest_path', type=str, help='Contest directory (polygon package) path.')
     parser.add_argument('--origin-ml', action='store_true',
                         help='If set, use the original memory limit of Polygon. Otherwise, set memory limit to 2GB.')
     parser.add_argument('--balloon', type=str, help='Balloon color config path. Default: Generate random colors')
     parser.add_argument('--language', type=str, help='Language used in statements Default: chinese', default='chinese')
 
     args = parser.parse_args()
+    shutil.copy(f'../polygon_files/testlib.h', args.contest_path)
+    os.chdir(args.contest_path)
+
     if not args.origin_ml:
         print('Warning: Memory limits of all problems are set to 2GB.')
 

@@ -1,9 +1,3 @@
-# DOMjudge Contest
-
-在搭建好的 DOMjudge 上举办一场新的比赛！
-
-先过一遍 `checklist.md`，其中的部分注意事项在这里就不再赘述了。
-
 ## Polygon2DOMjudge
 
 将 Polygon 上下载的 package 转换为 DOMjudge 需要的形式。
@@ -33,18 +27,20 @@
 
 接下来需要在 Polygon 上运行脚本以打包成 DOMjudge 格式的题目包。
 
-1. 将 `polygon2domjudge.py`、`polygon_files/testlib.h` 移动到 `contest-*****` 目录
-2. （可选）准备好气球颜色 `balloon.yaml`：
+1. （可选）准备好气球颜色 `balloon.yaml`：
    ```
    problem-name1: '#FF7109'
    problem-name2: '#008100'
    ```
-   若不准备好该文件，会随机生成气球颜色
-3. 运行 `python3 polygon2domjudge.py` 即可：
+   若不准备好该文件，会随机生成气球颜色。
+2. 运行 `python3 polygon2domjudge.py`：
    ```
-   usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON] [--language LANGUAGE]
+   usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON] [--language LANGUAGE] contest_path
 
    Parse Polygon package to DOMjudge format.
+   
+   positional arguments:
+     contest_path         Contest directory (polygon package) path.
    
    optional arguments:
      -h, --help           show this help message and exit
@@ -59,8 +55,8 @@
 
 步骤如下：
 
-1. 将 `create_contest.py` 移动到 `contest-*****` 目录
-2. 在 `contest-*****/contest.yaml` 中填写比赛信息，例如：
+1. 在 `config.py` 文件中修改相关配置
+2. 在 `contest.yaml` 中填写比赛信息，例如：
    ```
    name:                     DOMjudge open practice session
    short-name:               practice
@@ -69,23 +65,24 @@
    scoreboard-freeze-length: '0:30:00'
    penalty-time:             20
    ```
-3. 在 `create_contest.py` 文件中修改 admin 用户名和密码
-4. 给 `admin` 创建一个 team，否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
-5. 查看题目包的大小，需要修改 `nginx` 中的 `client_max_body_size` 以及 `timeout` 相关参数，而对于单个测试点特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
-6. 运行 `python3 create_contest.py`：
+3. 给 `admin` 创建一个 team，否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
+4. 查看题目包的大小，需要修改 `nginx` 中的 `client_max_body_size` 以及 `timeout` 相关参数，而对于单个测试点特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
+5. 运行 `python3 create_contest.py`：
    ```
-   usage: create_contest.py [-h] [--contest CONTEST] url
-   
+   usage: create_contest.py [-h] [--contest CONTEST] [--contest-id CONTEST_ID] contest_path
+
    Add a contest to DOMjudge.
    
    positional arguments:
-     url                DOMjudge url. Example: https://bcpc.buaaacm.com/domjudge
+     contest_path          Contest directory (polygon package) path.
    
    optional arguments:
-     -h, --help         show this help message and exit
-     --contest CONTEST  Contest config path. Default: contest.yaml
+     -h, --help            show this help message and exit
+     --contest CONTEST     Contest config path. Default: ../input/contest.yaml
+     --contest-id CONTEST_ID
+                           Contest id if the contest exists.
    ```
-7. 进入 DOMjudge 的比赛界面，手动修改题目的 shortname
+6. 进入 DOMjudge 的比赛界面，手动修改题目的 shortname
 
 ## Config TL and ML
 
@@ -93,40 +90,44 @@
 
 步骤如下：
 
-1. 将 `config_tl_ml.py` 移动到 `contest-*****` 目录
-2. `get` 命令可获取当前题面中的限制和 `DOMjudge` 的限制，`set` 命令可以将题面中的限制修改为 `DOMjudge` 的限制，具体用法参考 `help`
+1. 运行 `python3 config_tl_ml.py`
+2. `get` 可获取当前题面中的限制和 `DOMjudge` 的限制，`set` 可以将题面中的限制修改为 `DOMjudge` 的限制，具体用法参考 `help`
    ```
-   usage: config_tl_ml.py [-h] {get,set} ...
+   usage: config_tl_ml.py [-h] {get,set} contest_path contest_id
 
    Compare the time limit and the memory limit of the statement and the domjudge setting.
    
+   positional arguments:
+     {get,set}     Get or set.
+     contest_path  Contest directory (polygon package) path.
+     contest_id    DOMjudge contest id.
+   
    optional arguments:
-     -h, --help  show this help message and exit
-   
-   subcommands:
-     valid subcommands
-   
-     {get,set}   additional help
+     -h, --help    show this help message and exit
    ```
 3. 别忘了重新 `build` 题面并上传到 `DOMjudge`
 
 ## Generate teams and users
 
-1. 填写 `groups.tsv`，即队伍类别，注意该文件不能有空行，下同（这 DOMjudge 实现的真辣鸡）
-2. 运行 `python3 gen_teams.py`：
+1. 运行 `python3 gen_teams.py`：
    ```
-   usage: gen_teams.py [-h] [--pwd-len PWD_LEN] url team
-   
+   usage: gen_teams.py [-h] [--team-csv TEAM_CSV] [--seats SEATS] [--pwd-len PWD_LEN] group_id max_team_id
+
    Generate teams, users, and add them to DOMjudge.
    
    positional arguments:
-     url                DOMjudge url. Example: https://bcpc.buaaacm.com/domjudge
-     team               Team number
+     group_id             Group id to register teams.
+     max_team_id          Maximum team id that currently exists. You should manually check it from DOMjudge/database to
+                          avoid duplication.
    
    optional arguments:
-     -h, --help         show this help message and exit
-     --pwd-len PWD_LEN  Password length
+     -h, --help           show this help message and exit
+     --team-csv TEAM_CSV  Team csv file path. Default: ../input/team_info.csv. Refer to the sample file to check its
+                          format.
+     --seats SEATS        Location file path. Default: ../input/seats.txt. File that lists all available seats.
+     --pwd-len PWD_LEN    Password length. Default: 12.
    ```
+   选手信息保存于 `output/participant_info.csv` 中
 
 ## judgehost 压力测试
 
