@@ -30,14 +30,14 @@ if __name__ == '__main__':
     parser.add_argument(
         '--team-csv',
         type=str,
-        default='team_info.csv',
-        help='Team csv file path. Default: team_info.csv. Refer to the sample file to check its format.'
+        default='../input/team_info.csv',
+        help='Team csv file path. Default: ../input/team_info.csv. Refer to the sample file to check its format.'
     )
     parser.add_argument(
         '--seats',
         type=str,
-        default='seats.txt',
-        help='Location file path. Default: seats.txt. File that lists all available seats.'
+        default='../input/seats.txt',
+        help='Location file path. Default: ../input/seats.txt. File that lists all available seats.'
     )
     parser.add_argument('--pwd-len', type=int, default=12, help='Password length. Default: 12.')
     args = parser.parse_args()

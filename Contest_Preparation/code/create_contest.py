@@ -8,7 +8,12 @@ import utils
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Add a contest to DOMjudge.')
     parser.add_argument('contest_path', type=str, help='Contest directory (polygon package) path.')
-    parser.add_argument('--contest', type=str, default='contest.yaml', help='Contest config path. Default: contest.yaml')
+    parser.add_argument(
+        '--contest',
+        type=str,
+        default='../input/contest.yaml',
+        help='Contest config path. Default: ../input/contest.yaml'
+    )
     parser.add_argument('--contest-id', type=int, help='Contest id if the contest exists.')
     args = parser.parse_args()
 
