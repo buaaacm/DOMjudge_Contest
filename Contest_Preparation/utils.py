@@ -8,7 +8,7 @@ def get(req_url, params=None):
 
 
 def post(req_url, data=None, files=None):
-    return requests.post(f'{req_url}/api/v4/{url}', auth=auth, data=data, files=files)
+    return requests.post(f'{url}/api/v4/{req_url}', auth=auth, data=data, files=files)
 
 
 def parse_response(response):
