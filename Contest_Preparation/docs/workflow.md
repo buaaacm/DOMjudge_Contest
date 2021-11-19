@@ -27,13 +27,14 @@
 
 接下来需要在 Polygon 上运行脚本以打包成 DOMjudge 格式的题目包。
 
-1. （可选）准备好气球颜色 `balloon.yaml`：
+1. 参考 `config.sample.yaml` 文件，在 `config.yaml` 文件中修改相关配置
+2. （可选）准备好气球颜色 `balloon.yaml`：
    ```
    problem-name1: '#FF7109'
    problem-name2: '#008100'
    ```
    若不准备好该文件，会随机生成气球颜色。
-2. 运行 `python3 polygon2domjudge.py`：
+3. 运行 `python3 polygon2domjudge.py`：
    ```
    usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON] [--language LANGUAGE] contest_path
 
@@ -55,8 +56,7 @@
 
 步骤如下：
 
-1. 在 `config.py` 文件中修改相关配置
-2. 在 `contest.yaml` 中填写比赛信息，例如：
+1. 在 `contest.yaml` 中填写比赛信息，例如：
    ```
    name:                     DOMjudge open practice session
    short-name:               practice
@@ -65,9 +65,9 @@
    scoreboard-freeze-length: '0:30:00'
    penalty-time:             20
    ```
-3. 给 `admin` 创建一个 team，否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
-4. 查看题目包的大小，需要修改 `nginx` 中的 `client_max_body_size` 以及 `timeout` 相关参数，而对于单个测试点特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
-5. 运行 `python3 create_contest.py`：
+2. 给 `admin` 创建一个 team，否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
+3. 查看题目包的大小，需要修改 `nginx` 中的 `client_max_body_size` 以及 `timeout` 相关参数，而对于单个测试点特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
+4. 运行 `python3 create_contest.py`：
    ```
    usage: create_contest.py [-h] [--contest CONTEST] [--contest-id CONTEST_ID] contest_path
 
@@ -82,7 +82,7 @@
      --contest-id CONTEST_ID
                            Contest id if the contest exists.
    ```
-6. 进入 DOMjudge 的比赛界面，手动修改题目的 shortname
+5. 进入 DOMjudge 的比赛界面，手动修改题目的 shortname
 
 ## Config TL and ML
 
@@ -131,7 +131,7 @@
 
 ## 压力测试
 
-使用 locust 进行压力测试。
+使用 locust 进行压力测试。测试代码位于 `locustfile.py` 中。
 
 1. 再次确认 `config.yaml` 中的压力测试部分，按实际情况修改参数。
 2. 在 `code/` 目录下运行 `locust` 命令。
