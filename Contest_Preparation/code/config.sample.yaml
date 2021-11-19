@@ -10,3 +10,7 @@ locust:
   contest_id: 4
   # Set submit probability to 1 / submit_prob
   submit_prob: 100
+  # Set clarification probability to 1 / clarification_prob
+  clarification_prob: 100
+  # Clarification length in simulation
+  clarification_length: 100

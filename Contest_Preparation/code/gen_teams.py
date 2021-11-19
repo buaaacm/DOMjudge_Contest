@@ -13,7 +13,7 @@ def gen_password(length):
     charset = [ch for ch in charset if ch not in ban_char]
     password = ''
     for j in range(length):
-        password += charset[random.randint(0, len(charset) - 1)]
+        password += random.choice(charset)
     return password
 
 

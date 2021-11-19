@@ -52,7 +52,7 @@ class QuickstartUser(HttpUser):
         for root, dirs, files in os.walk(os.path.join(contest_path, f'domjudge/{short_name}/submissions')):
             for file in files:
                 codes.append(os.path.join(root, file))
-        code = codes[random.randint(0, len(codes) - 1)]
+        code = random.choice(codes)
         ext = os.path.splitext(code)[-1]
         language = {
             '.c': 'c',
@@ -81,6 +81,29 @@ class QuickstartUser(HttpUser):
                 }
             )
             self.client.get('/team')
+
+    @task
+    def clarification(self):
+        if random.randint(0, locust_clarification_prob - 1) > 0:
+            return
+        with self.client.get('/team/clarifications/add', catch_response=True) as response:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            recipients = soup.find(attrs={'name': 'team_clarification[recipient]'}).find_all('option')
+            recipient = random.choice(recipients).attrs['value']
+            subjects = soup.find(attrs={'name': 'team_clarification[subject]'}).find_all('option')
+            subject = random.choice(subjects).attrs['value']
+            csrf_token = soup.find(attrs={'name': 'team_clarification[_token]'}).attrs['value']
+        self.client.post(
+            f'/team/clarifications/add',
+            data={
+                'team_clarification[recipient]': recipient,
+                'team_clarification[subject]': subject,
+                'team_clarification[message]':
+                    ''.join([random.choice('01') for _ in range(locust_clarification_length)]),
+                'team_clarification[_token]': csrf_token,
+            }
+        )
+        self.client.get('/team')
 
     def on_start(self):
         with self.client.get('/login', catch_response=True) as response:
