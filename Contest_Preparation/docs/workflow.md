@@ -129,21 +129,10 @@
    ```
    选手信息保存于 `output/participant_info.csv` 中
 
-## judgehost 压力测试
+## 压力测试
 
-1. 将 `random_submission.py`、`accounts.tsv` 复制到 `domjudge/` 目录
-2. 运行 `python3 random_submission.py`：
-   ```
-   usage: random_submission.py [-h] [--submit-interval SUBMIT_INTERVAL] url contest_id
+使用 locust 进行压力测试。
 
-   Randomly submit to DOMjudge.
-   
-   positional arguments:
-     url                   DOMjudge url. Example: https://bcpc.buaaacm.com/domjudge
-     contest_id            Contest Id
-   
-   optional arguments:
-     -h, --help            show this help message and exit
-     --submit-interval SUBMIT_INTERVAL
-                           Interval between submissions
-   ```
+1. 再次确认 `config.yaml` 中的压力测试部分，按实际情况修改参数。
+2. 在 `code/` 目录下运行 `locust` 命令。
+3. 本地浏览器开启 `http://localhost:8089/` 页面，查看测试情况。
