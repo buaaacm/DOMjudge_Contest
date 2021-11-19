@@ -79,11 +79,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Compare the time limit and the memory limit of the statement and the'
                                                  ' domjudge setting.')
     parser.add_argument('op', type=str, choices=['get', 'set'], help='Get or set.')
-    parser.add_argument('contest_path', type=str, help='Contest directory (polygon package) path.')
     parser.add_argument('contest_id', type=str, help='DOMjudge contest id.')
 
     args = parser.parse_args()
-    os.chdir(args.contest_path)
+    os.chdir(contest_path)
     if args.op == 'get':
         get_config(args)
     elif args.op == 'set':

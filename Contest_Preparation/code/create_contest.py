@@ -7,7 +7,6 @@ import utils
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Add a contest to DOMjudge.')
-    parser.add_argument('contest_path', type=str, help='Contest directory (polygon package) path.')
     parser.add_argument(
         '--contest',
         type=str,
@@ -20,7 +19,7 @@ if __name__ == '__main__':
     with open(args.contest, 'r') as fpin:
         contest_config = yaml.load(fpin, yaml.SafeLoader)
 
-    os.chdir(args.contest_path)
+    os.chdir(contest_path)
     with open('contest.xml', 'r') as fpin:
         root = ET.parse(fpin).getroot()
         problems_node = root.find('problems').findall('problem')

@@ -36,12 +36,9 @@
    若不准备好该文件，会随机生成气球颜色。
 3. 运行 `python3 polygon2domjudge.py`：
    ```
-   usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON] [--language LANGUAGE] contest_path
+   usage: polygon2domjudge.py [-h] [--origin-ml] [--balloon BALLOON] [--language LANGUAGE]
 
    Parse Polygon package to DOMjudge format.
-   
-   positional arguments:
-     contest_path         Contest directory (polygon package) path.
    
    optional arguments:
      -h, --help           show this help message and exit
@@ -69,12 +66,9 @@
 3. 查看题目包的大小，需要修改 `nginx` 中的 `client_max_body_size` 以及 `timeout` 相关参数，而对于单个测试点特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
 4. 运行 `python3 create_contest.py`：
    ```
-   usage: create_contest.py [-h] [--contest CONTEST] [--contest-id CONTEST_ID] contest_path
+   usage: create_contest.py [-h] [--contest CONTEST] [--contest-id CONTEST_ID]
 
    Add a contest to DOMjudge.
-   
-   positional arguments:
-     contest_path          Contest directory (polygon package) path.
    
    optional arguments:
      -h, --help            show this help message and exit
@@ -93,17 +87,16 @@
 1. 运行 `python3 config_tl_ml.py`
 2. `get` 可获取当前题面中的限制和 `DOMjudge` 的限制，`set` 可以将题面中的限制修改为 `DOMjudge` 的限制，具体用法参考 `help`
    ```
-   usage: config_tl_ml.py [-h] {get,set} contest_path contest_id
+   usage: config_tl_ml.py [-h] {get,set} contest_id
 
    Compare the time limit and the memory limit of the statement and the domjudge setting.
    
    positional arguments:
-     {get,set}     Get or set.
-     contest_path  Contest directory (polygon package) path.
-     contest_id    DOMjudge contest id.
+     {get,set}   Get or set.
+     contest_id  DOMjudge contest id.
    
    optional arguments:
-     -h, --help    show this help message and exit
+     -h, --help  show this help message and exit
    ```
 3. 别忘了重新 `build` 题面并上传到 `DOMjudge`
 
