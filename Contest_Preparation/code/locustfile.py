@@ -2,14 +2,11 @@ from bs4 import BeautifulSoup
 from locust import HttpUser, task, between
 import random
 import csv
+import xml.etree.ElementTree as ET
+import os
 
-
-### Fill the following configuration before you start testing
-
-# The problem with statement, usually problem A
-statement_id = 5
-
-### Configuration end
+from config import *
+import utils
 
 students = list()
 with open('../output/participant_info.csv', 'r') as fpin:
@@ -17,6 +14,17 @@ with open('../output/participant_info.csv', 'r') as fpin:
     for student in info:
         students.append((student[2], student[3]))
 random.shuffle(students)
+
+with open(os.path.join(contest_path, 'contest.xml'), 'r') as fpin:
+    root = ET.parse(fpin).getroot()
+    problems_node = root.find('problems').findall('problem')
+    problems = list()
+    for problem in problems_node:
+        problems.append(problem.attrib['url'].split('/')[-1])
+
+response = utils.get(f'contests/{locust_contest_id}/problems')
+domjudge_problems = utils.parse_response(response)
+problems_id = [p['id'] for p in domjudge_problems]
 
 
 class QuickstartUser(HttpUser):
@@ -32,12 +40,52 @@ class QuickstartUser(HttpUser):
 
     @task
     def problem_text(self):
-        self.client.get(f'/team/problems/{statement_id}/text')
+        self.client.get(f'/team/problems/{locust_statement_id}/text')
+
+    @task
+    def submit(self):
+        if random.randint(0, locust_submit_prob - 1) > 0:
+            return
+        problem = random.randint(0, len(problems) - 1)
+        short_name = problems[problem]
+        codes = list()
+        for root, dirs, files in os.walk(os.path.join(contest_path, f'domjudge/{short_name}/submissions')):
+            for file in files:
+                codes.append(os.path.join(root, file))
+        code = codes[random.randint(0, len(codes) - 1)]
+        ext = os.path.splitext(code)[-1]
+        language = {
+            '.c': 'c',
+            '.cc': 'cpp',
+            '.cpp': 'cpp',
+            '.c++': 'cpp',
+            '.cxx': 'cpp',
+            '.py': 'py3',
+            '.py3': 'py3',
+            '.java': 'java',
+        }[ext]
+        with open(code, 'r') as fpin:
+            with self.client.get('/team/submit', catch_response=True) as response:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                csrf_token = soup.find(attrs={'name': 'submit_problem[_token]'}).attrs['value']
+            self.client.post(
+                f'/team/submit',
+                data={
+                    'submit_problem[problem]': problems_id[problem],
+                    'submit_problem[language]': language,
+                    'submit_problem[_token]': csrf_token,
+                    'submit_problem[entry_point]': '',
+                },
+                files={
+                    'submit_problem[code][]': (code, fpin, 'application/octet-stream'),
+                }
+            )
+            self.client.get('/team')
 
     def on_start(self):
-        response = self.client.get('/login')
-        soup = BeautifulSoup(response.text, 'html.parser')
-        csrf_token = soup.find(attrs={'name': '_csrf_token'}).attrs['value']
+        with self.client.get('/login', catch_response=True) as response:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            csrf_token = soup.find(attrs={'name': '_csrf_token'}).attrs['value']
         username, password = students.pop()
         print(f'{username} login')
         self.client.post(

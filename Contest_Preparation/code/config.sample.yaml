@@ -1,0 +1,12 @@
+url: http://pre.bcpc.buaaacm.com/
+username: admin
+password: password
+contest_path: /Your/Contest/Path/contest-24997/
+
+locust:
+  # The problem with statement, usually problem A
+  statement_id: 5
+  # The contest id to test
+  contest_id: 4
+  # Set submit probability to 1 / submit_prob
+  submit_prob: 100

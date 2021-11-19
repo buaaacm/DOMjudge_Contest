@@ -136,3 +136,6 @@ dmypy.json
 
 # Output Files
 Contest_Preparation/output
+
+# Configurations
+Contest_Preparation/code/config.yaml
