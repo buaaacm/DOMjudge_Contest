@@ -1,2 +1,4 @@
 requests
 PyYAML
+locust
+bs4
