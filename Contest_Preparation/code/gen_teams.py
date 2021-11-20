@@ -3,6 +3,7 @@ import random
 import utils
 import csv
 import json
+import io
 
 
 def gen_password(length):
@@ -51,65 +52,77 @@ if __name__ == '__main__':
         random.shuffle(seats)
 
     max_team_id = args.max_team_id
-    teams = list()
-    accounts = [['accounts', '1']]
-    participant_info = [[
+    participant_header = [
         '学号',
         '姓名',
         '用户名',
         '密码',
         '座位',
-    ]]
+        'Team ID',
+        '队伍名',
+    ]
+    participant_info = list()
     with open(args.team_csv, 'r', encoding='utf-8') as fpin:
         for index, team in enumerate(csv.reader(fpin)):
             team_name = f'{team[0]}-{team[1]}'
             team_id = max_team_id + 1 + index
             seat = seats[index]
-            teams.append({
-                'id': team_id,
-                'group_ids': [args.group_id],
-                'name': team_name,
-                'display_name': team_name,
-                'organization_id': 'BUAA',
-                'location': seat,
-            })
 
             password = gen_password(args.pwd_len)
             username = f'team{team_id:04d}'  # Team id should be a prefix of username
-            accounts.append([
-                'team',
-                team[1],  # Full name
-                username,
-                password,
-            ])
 
-            participant_info.append([
-                team[0],  # Student number
-                team[1],  # Full name
-                username,
-                password,
-                seat,
-            ])
-
-    with open('../output/teams.json', 'w', encoding='utf-8') as fpout:
-        json.dump(teams, fpout)
-
-    with open('../output/accounts.tsv', 'w', encoding='utf-8') as fpout:
-        csv.register_dialect('tsv_dialect', delimiter='\t')
-        writer = csv.writer(fpout, dialect='tsv_dialect')
-        writer.writerows(accounts)
-
+            participant_info.append({
+                '学号': team[0],
+                '姓名': team[1],
+                '用户名': username,
+                '密码': password,
+                '座位': seat,
+                'Team ID': team_id,
+                '队伍名': team_name,
+            })
     with open('../output/participant_info.csv', 'w', encoding='utf-8') as fpout:
-        writer = csv.writer(fpout)
+        writer = csv.DictWriter(fpout, participant_header)
+        writer.writeheader()
         writer.writerows(participant_info)
 
-    with open('../output/teams.json', 'r') as fpin:
+    SLICE = 50
+    while participant_info:
+        if len(participant_info) < 50:
+            to_process = participant_info
+            participant_info = []
+        else:
+            to_process = participant_info[-50:]
+            assert len(to_process) == 50
+            del participant_info[-50:]
+        teams = list()
+        accounts = [['accounts', '1']]
+        for participant in to_process:
+            teams.append({
+                'id': participant['Team ID'],
+                'group_ids': [args.group_id],
+                'name': participant['队伍名'],
+                'display_name': participant['队伍名'],
+                'organization_id': 'BUAA',
+                'location': participant['座位'],
+            })
+
+            accounts.append([
+                'team',
+                participant['姓名'],
+                participant['用户名'],
+                participant['密码'],
+            ])
+
         response = utils.post('users/teams', files={
-            'json': fpin,
+            'json': ('teams.json', json.dumps(teams))
         })
         print(utils.parse_response(response))
-    with open('../output/accounts.tsv', 'r') as fpin:
+
+        str_out = io.StringIO()
+        csv.register_dialect('tsv_dialect', delimiter='\t')
+        writer = csv.writer(str_out, dialect='tsv_dialect')
+        writer.writerows(accounts)
         response = utils.post('users/accounts', files={
-            'tsv': fpin,
+            'tsv': ('accounts.tsv', str_out.getvalue()),
         })
         print(utils.parse_response(response))

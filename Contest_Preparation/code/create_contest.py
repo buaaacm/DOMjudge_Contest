@@ -3,6 +3,7 @@ import yaml
 import xml.etree.ElementTree as ET
 import os
 import utils
+from config import *
 
 
 if __name__ == '__main__':
@@ -29,26 +30,30 @@ if __name__ == '__main__':
         short_name = problem.attrib['url'].split('/')[-1]
         problems.append(short_name)
 
-    with open('contest.yaml', 'w') as fpout:
-        yaml.dump(contest_config, fpout)
-
     if args.contest_id is None:
-        with open('contest.yaml', 'r') as fpin:
-            response = utils.post('contests', files={
-                'yaml': fpin,
-            })
-            contest_id = utils.parse_response(response)
+        response = utils.post('contests', files={
+            'yaml': ('contest.yaml', yaml.dump(contest_config)),
+        })
+        contest_id = utils.parse_response(response)
+        exist_problems = set()
     else:
         contest_id = args.contest_id
+        response = utils.get(f'contests/{contest_id}/problems')
+        exist_problems = utils.parse_response(response)
+        exist_problems = {problem['externalid'] for problem in exist_problems}
 
     os.chdir('domjudge')
     for id, problem in enumerate(problems):
         with open(f'{problem}.zip', 'rb') as fpin:
             problem_index = chr(id + ord('A'))
-            response = utils.post(f'contests/{contest_id}/problems', files={
-                'zip[]': (f'{problem_index}-{problem}.zip', fpin),
-            })
-            if response.status_code == 400 and 'externalid' in response.json()['message'][0]:
+            name = f'{problem_index}-{problem}'
+            # if response.status_code == 400 and 'externalid' in response.json()['message']:
+            #     print(f'Problem {id} {problem} already exists, ignored...')
+            if name in exist_problems:
                 print(f'Problem {id} {problem} already exists, ignored...')
+                continue
             else:
+                response = utils.post(f'contests/{contest_id}/problems', files={
+                    'zip[]': (f'{name}.zip', fpin),
+                })
                 print(utils.parse_response(response))

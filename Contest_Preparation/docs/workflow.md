@@ -102,7 +102,9 @@
 
 ## Generate teams and users
 
-1. 运行 `python3 gen_teams.py`：
+1. 在 `team_info.csv` 中准备好选手学号、姓名。
+2. 在 `seats.txt` 中准备好所有可用座位。
+3. 运行 `python3 gen_teams.py`：
    ```
    usage: gen_teams.py [-h] [--team-csv TEAM_CSV] [--seats SEATS] [--pwd-len PWD_LEN] group_id max_team_id
 
@@ -120,12 +122,14 @@
      --seats SEATS        Location file path. Default: ../input/seats.txt. File that lists all available seats.
      --pwd-len PWD_LEN    Password length. Default: 12.
    ```
-   选手信息保存于 `output/participant_info.csv` 中
+   选手信息将输出于 `output/participant_info.csv` 中。
+4. 将自动创建的学校名称修改为“北京航空航天大学”
 
 ## 压力测试
 
 使用 locust 进行压力测试。测试代码位于 `locustfile.py` 中。
 
 1. 再次确认 `config.yaml` 中的压力测试部分，按实际情况修改参数。
-2. 在 `code/` 目录下运行 `locust` 命令。
-3. 本地浏览器开启 `http://localhost:8089/` 页面，查看测试情况。
+2. 将其余无关比赛 disable。
+3. 在 `code/` 目录下运行 `locust` 命令。
+4. 本地浏览器开启 `http://localhost:8089/` 页面，查看测试情况。

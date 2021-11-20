@@ -3,6 +3,7 @@ import argparse
 import xml.etree.ElementTree as ET
 import utils
 import os
+from config import *
 
 
 def parse_statement():
