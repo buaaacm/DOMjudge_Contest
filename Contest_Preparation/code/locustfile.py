@@ -50,6 +50,8 @@ for problem in problems_node:
 class QuickstartUser(HttpUser):
     wait_time = between(10, 15)
 
+    # TODO: 这份测试只下载了 HTML 页面本身，没有下载相关的 JS/CSS/IMG 等。如果之后要实现相关功能的话，可参考 wget 源码
+
     @task
     def home(self):
         self.client.get('/team')
