@@ -62,9 +62,15 @@
    scoreboard-freeze-length: '0:30:00'
    penalty-time:             20
    ```
-2. 给 `admin` 创建一个 team，否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
-3. 查看题目包的大小，需要修改 `nginx` 中的 `client_max_body_size` 以及 `timeout` 相关参数，而对于单个测试点特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
-4. 运行 `python3 create_contest.py`：
+2. 给 `admin` 创建一个 team，并加上 Team Member 权限。否则添加 submission 时会报 `No jury solutions added: must associate team with your user first.` 错误 
+3. 查看题目包的大小，需要修改 `nginx` 中的 `client_max_body_size` 以及 `timeout` 相关参数（实测不改也没事）、php 配置（默认单个题目包不得超过 256MB）：
+   ```
+   sed -i 's/php_admin_value\[upload_max_filesize\] = 256M/php_admin_value[upload_max_filesize] = 512M/g' /etc/php/7.4/fpm/pool.d/domjudge.conf 
+   sed -i 's/php_admin_value\[post_max_size\] = 256M/php_admin_value[post_max_size] = 512M/g' /etc/php/7.4/fpm/pool.d/domjudge.conf
+   docker-compose restart
+   ```
+4. 对于单个测试点特别大的情况，还需要修改 `domserver` 的 `docker-compose` 文件中的 `--max_allowed_packet`
+5. 运行 `python3 create_contest.py`：
    ```
    usage: create_contest.py [-h] [--contest CONTEST] [--contest-id CONTEST_ID]
 
@@ -76,7 +82,7 @@
      --contest-id CONTEST_ID
                            Contest id if the contest exists.
    ```
-5. 进入 DOMjudge 的比赛界面，手动修改题目的 shortname
+6. 进入 DOMjudge 的比赛界面，手动修改题目的 shortname
 
 ## Config TL and ML
 
