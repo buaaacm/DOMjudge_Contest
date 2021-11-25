@@ -4,6 +4,10 @@ import random
 import csv
 import xml.etree.ElementTree as ET
 import os
+from datetime import datetime, timedelta
+import subprocess
+import sys
+import shutil
 
 from config import *
 import utils
@@ -51,14 +55,45 @@ class QuickstartUser(HttpUser):
     wait_time = between(10, 15)
 
     # TODO: 这份测试只下载了 HTML 页面本身，没有下载相关的 JS/CSS/IMG 等。如果之后要实现相关功能的话，可参考 wget 源码
+    def get_with_resources(self, page):
+        if page not in self.wget_last_update or datetime.now() - self.wget_last_update[page] > timedelta(minutes=10):
+            print(f'Wgetting for user {self.username}, page {page}')
+            workdir = f'/tmp/domjudge/{self.username}'
+            shutil.rmtree(workdir, ignore_errors=True)
+            os.makedirs(workdir)
+
+            cookies = self.client.cookies.get_dict()
+            cookie_file = os.path.join(workdir, 'cookies.txt')
+            with open(cookie_file, 'w') as fpout:
+                for key, value in cookies.items():
+                    cookie = [self.domain, 'TRUE', '/', 'FALSE', '10000000000', key, value]
+                    fpout.write('\t'.join(cookie) + '\n')
+            process = subprocess.Popen(f'wget -P {workdir} -p {self.client.base_url}{page} '
+                                       f'--load-cookies {cookie_file}',
+                                       stdout=sys.stdout, stderr=sys.stderr, shell=True)
+            process.communicate()
+            all_resources = list()
+            resouce_path = os.path.join(workdir, self.domain)
+            for root, dirs, files in os.walk(resouce_path):
+                for file in files:
+                    if file == 'robots.txt':
+                        continue
+                    all_resources.append('/' + os.path.relpath(os.path.join(root, file), resouce_path))
+            print(f'Resouces, current time {datetime.now()}:')
+            for resource in all_resources:
+                print(resource)
+            self.all_resources[page] = all_resources
+            self.wget_last_update[page] = datetime.now()
+        for resource in self.all_resources[page]:
+            self.client.get(resource)
 
     @task
     def home(self):
-        self.client.get('/team')
+        self.get_with_resources('/team')
 
     @task
     def problems(self):
-        self.client.get('/team/problems')
+        self.get_with_resources('/team/problems')
 
     @task
     def problem_text(self):
@@ -85,7 +120,7 @@ class QuickstartUser(HttpUser):
                 'submit_problem[code][]': (code['filename'], code['content'], 'application/octet-stream'),
             }
         )
-        self.client.get('/team')
+        self.get_with_resources('/team')
 
     @task
     def clarification(self):
@@ -108,11 +143,11 @@ class QuickstartUser(HttpUser):
                 'team_clarification[_token]': csrf_token,
             }
         )
-        self.client.get('/team')
+        self.get_with_resources('/team')
 
     @task
     def scoreboard(self):
-        self.client.get('/team/scoreboard')
+        self.get_with_resources('/team/scoreboard')
 
     def on_start(self):
         with self.client.get('/login', catch_response=True) as response:
@@ -124,3 +159,11 @@ class QuickstartUser(HttpUser):
             '/login',
             data={'_username': username, '_password': password, '_csrf_token': csrf_token}
         )
+        self.username = username
+        self.wget_last_update = dict()
+        self.all_resources = dict()
+        domain = self.client.base_url.strip('/')
+        for protocol in ['http', 'https']:
+            if domain.startswith(f'{protocol}://'):
+                domain = domain[len(f'{protocol}://'):]
+        self.domain = domain
