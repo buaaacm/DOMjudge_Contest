@@ -89,11 +89,11 @@ class QuickstartUser(HttpUser):
 
     @task
     def home(self):
-        self.get_with_resources('/team')
+        self.client.get('/team')
 
     @task
     def problems(self):
-        self.get_with_resources('/team/problems')
+        self.client.get('/team/problems')
 
     @task
     def problem_text(self):
@@ -120,7 +120,7 @@ class QuickstartUser(HttpUser):
                 'submit_problem[code][]': (code['filename'], code['content'], 'application/octet-stream'),
             }
         )
-        self.get_with_resources('/team')
+        self.client.get('/team')
 
     @task
     def clarification(self):
@@ -143,11 +143,11 @@ class QuickstartUser(HttpUser):
                 'team_clarification[_token]': csrf_token,
             }
         )
-        self.get_with_resources('/team')
+        self.client.get('/team')
 
     @task
     def scoreboard(self):
-        self.get_with_resources('/team/scoreboard')
+        self.client.get('/team/scoreboard')
 
     def on_start(self):
         with self.client.get('/login', catch_response=True) as response:
