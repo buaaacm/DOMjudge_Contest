@@ -15,4 +15,21 @@ UPDATE domjudge.judging_run_output AS jro SET jro.output_run = substr(jro.output
 
 之后可能要手动重建表，否则空间不能得到释放。
 
-## 
+## 最大连接数
+
+修改配置文件后重启 `docker`：
+
+```bash
+cat << EOF >> /etc/mysql/conf.d/mysql.cnf
+[mysqld]
+max_connections = 1024
+EOF
+docker-compose restart
+```
+
+## 备份数据库
+
+```bash
+docker exec container_id mysqldump --all-databases -uroot -ppassword > domjudge.sql
+docker exec container_id mysql -uroot -ppassword < domjudge.sql
+```
