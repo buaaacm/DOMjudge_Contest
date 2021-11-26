@@ -4,6 +4,7 @@ import utils
 import csv
 import json
 import io
+import os
 
 
 def gen_password(length):
@@ -80,6 +81,7 @@ if __name__ == '__main__':
                 'Team ID': team_id,
                 '队伍名': team_name,
             })
+    os.makedirs('../output', exist_ok=True)
     with open('../output/participant_info.csv', 'w', encoding='utf-8') as fpout:
         writer = csv.DictWriter(fpout, participant_header)
         writer.writeheader()
