@@ -36,6 +36,11 @@
 
 \if@chinese
 \usepackage[UTF8]{ctex}
+\usepackage {xeCJK}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\setCJKsansfont[AutoFakeBold=1]{SimHei}
+%\setCJKsansfont[BoldFont=Source Han Sans SC Medium]{Source Han Sans SC}
+\renewcommand{\textbf}[1]{{\bfseries\CJKunderdot{#1}}}
 \fi
 
 
@@ -508,7 +513,7 @@
     \bigskip%
     \noindent%
     \refstepcounter{problem}
-    \textbf{\problemheadfont\textsf{\ifdefined\ShortProblemTitle\ifdefined\ProblemIndex\ProblemIndex. \fi\else\kw@Problem\ \ifdefined\ProblemIndex\ProblemIndex\else\if@arabic\arabic{problem}\else\Alph{problem}\fi\fi. \fi #1}}%
+    {\bfseries{\problemheadfont\textsf{\ifdefined\ShortProblemTitle\ifdefined\ProblemIndex\ProblemIndex. \fi\else\kw@Problem\ \ifdefined\ProblemIndex\ProblemIndex\else\if@arabic\arabic{problem}\else\Alph{problem}\fi\fi. \fi #1}}}%
     \invisiblesection
     \nopagebreak%
     \problemtextfont%
@@ -556,7 +561,7 @@
         \ifdefined\NoProblemHead\else%
         \noindent
         \refstepcounter{problem}
-        \textbf{\problemheadfont\textsf{%
+        {\bfseries{\problemheadfont\textsf{%
         		\ifdefined\ShortProblemTitle\ifdefined\ProblemIndex\ProblemIndex. \fi\else\kw@Problem\ \ifdefined\ProblemIndex\ProblemIndex\else\if@arabic\arabic{problem}\else\Alph{problem}\fi\fi. \fi%
         		#1%
                 \ifdefined\DivisionNumber%
@@ -564,7 +569,7 @@
                 {\ \textit{(Division\ \DivisionNumber)}}%
                 \fi%
                 \fi%
-                }}%
+                }}}%
         \nopagebreak%
         \par\vspace{\afterproblemhead}%
         \problemtextfont\parindent=6.5mm%

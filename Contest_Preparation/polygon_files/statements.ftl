@@ -22,7 +22,7 @@
   \DeclareGraphicsRule{*}{mps}{*}{}
 \fi
 
-\usepackage [colorlinks,linkcolor=blue]{hyperref}
+\usepackage [colorlinks,linkcolor=blue,urlcolor=blue]{hyperref}
 
 \newfontfamily{\lstconsolas}{Consolas}
 \lstset{
