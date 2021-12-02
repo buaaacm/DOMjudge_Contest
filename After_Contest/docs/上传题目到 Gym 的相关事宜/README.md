@@ -12,7 +12,7 @@
 
 ## 将 Statements 和 Tutorials 上传到 Codeforces Gym 上
 
-1. 下载一个 FTP 连接工具，下面以 FileZella 为例，百度就可以下载免费版。
+1. 下载一个 FTP 连接工具，下面以 FileZilla 为例，百度就可以下载免费版。
 
 2. 打开后这个软件长下面这样：
 
