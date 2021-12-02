@@ -4,7 +4,7 @@
 
 1. 在 Polygon 对应比赛中，点右下角的 Manage developers list，将 `codeforces` 加入 Change list，Access 设为 `WRITE`。之后可以看到 `Codeforces Judge System` 出现在了 Contest developers 中。
 
-2. 进入 https://codeforces.com/gyms，点击 Create new training，设置比赛相关信息，如果要公开需要将 Visibility 设为 `Public`。
+2. 进入 Codeforces Gym，点击 Create new training，设置比赛相关信息，如果要公开需要将 Visibility 设为 `Public`。
 
 3. 此时得到一个空的 Gym 比赛，在 problems 界面点击绿色加号右边的 Add new problems from contest，将 polygon 对应比赛的 UID 粘贴到这里，点击 Download contest problems 即可完成题目上传。UID 具体位置如下：
 
@@ -30,7 +30,7 @@
 
    红框两个文件夹是放题面和题解的，具体的放置文件结构如下，如果要其它语言就把 chinese 改成其它语言：
 
-   ![ftp2](C:\Users\15344\Desktop\文件\传gym\ftp2.png)
+   ![ftp2](ftp2.png)
 
    ![ftp3](ftp3.png)
 
