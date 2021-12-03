@@ -17,6 +17,8 @@ UPDATE domjudge.judging_run_output AS jro SET jro.output_run = substr(jro.output
 
 ## 最大连接数
 
+目前在 `docker` 启动时即可解决。
+
 修改配置文件后重启 `docker`：
 
 ```bash
