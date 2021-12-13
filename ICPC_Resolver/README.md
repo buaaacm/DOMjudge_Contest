@@ -28,8 +28,8 @@
    ```shell
    export ICPC_FONT=/YOUR/FONT
    ```
-8. 运行滚榜命令
+8. 运行滚榜命令，其中`place` 指从`place`后单步运行
    ```shell
-   ./resolver.sh award-fixed-awards.json --fast 0.2 --test
+   ./resolver.sh award-fixed-awards.json --fast 0.2 --test --singleStep <place>
    ```
 9.  务必大致核对一遍奖项和榜单（时间允许的情况下）
